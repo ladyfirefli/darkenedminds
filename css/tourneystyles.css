@@ -1,0 +1,298 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Navigation Bar Styling */
+nav {
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    position: fixed; /* Make navbar stay at the top */
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 14px 20px;
+    display: inline-block;
+}
+
+nav ul li a:hover {
+    background-color: #007bff;
+    border-radius: 4px;
+}
+
+/* Highlight the current page */
+nav ul li a.current-page {
+    color: #53f04e; /* Highlight color */
+    border-radius: 4px;
+}
+
+/* Adjust body content to not go under the navbar */
+body {
+    padding-top: 60px; /* Adjust height based on navbar height */
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-image: url('assets/MasterPadawan.png'); /* Background for the entire page */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: #333;
+    background-color: #0c0c0c;
+}
+
+/* Content Sections */
+header {
+    background-image: url('assets/TourneyHeader.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    margin: 1rem auto;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    font-size: 1.2rem;
+}
+
+/* Content Box Styling */
+section {
+    background-color: rgba(255, 255, 255, 0.8); /* White background with slight transparency */
+    padding: 2rem;
+    margin: 1rem auto;
+    max-width: 900px;
+    text-align: left;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #282c34;
+    text-align: center;
+}
+
+p, ul {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+ul li {
+    display: flex;
+    align-items: center;
+    justify-content: center ;
+    margin: 1rem 0;
+}
+
+/* Scoring Section Styling */
+#scoring {
+    background-color: rgba(255, 255, 255, 0.9); /* Background color */
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    text-align: left;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#scoring h2 {
+    font-size: 2rem;
+    color: #282c34;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+#scoring h3 {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-top: 1rem;
+}
+
+#scoring p, #scoring ul {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    line-height: 1.6;
+}
+
+#scoring ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#scoring ul li {
+    margin: 0.5rem 0;
+    justify-content: left;
+}
+
+
+/* Two-column Prizes Section (Centered) */
+#prizes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.prize-content {
+    flex: 1;
+    text-align: left;
+}
+
+.prize-image {
+    width: 50%; /* Adjust image width */
+    text-align: right;
+}
+
+.prize-image img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.logo-img {
+    width: 100px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.stats-image img{
+    max-width: 400px;
+    height: auto;
+    border-radius: 4px;
+    text-align: center;
+}
+/* Container for the form */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+/* Centering container for the form */
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Adjust to fit available viewport */
+    padding: 20px;
+}
+/* Style for the form */
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Form heading */
+.registration-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+/* Form groups for label/input alignment */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    color: #555555;
+    font-weight: bold;
+}
+
+/* Input styling */
+.registration-form input[type="text"],
+.registration-form input[type="email"],
+.registration-form input[type="file"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+.registration-form input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Button styling */
+.registration-form button {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.registration-form button:hover {
+    background-color: #0056b3;
+}
+/* Links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Styling */
+footer {
+    background-color: rgba(40, 44, 52, 0.9); /* Semi-transparent footer */
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+/* Ensure sections stay readable over the background */
+header, section, footer {
+    position: relative;
+    z-index: 1;
+}

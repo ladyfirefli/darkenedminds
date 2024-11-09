@@ -1,0 +1,15 @@
+# Allow all crawlers full access to the site
+User-agent: *
+Disallow:
+
+# Block crawlers from accessing private folders
+Disallow: /private_html/
+Disallow: /config/
+Disallow: /services/
+Disallow: /temp/
+
+# Allow specific files within a disallowed folder
+Allow: /public_html/index.php
+
+ # Sitemap location
+# Sitemap: https://darkenedminds.com/sitemap.xml 

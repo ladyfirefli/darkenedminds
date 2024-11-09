@@ -1,0 +1,220 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Navigation Bar Styling */
+nav {
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    position: fixed; /* Make navbar stay at the top */
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    align-content: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 14px 20px;
+    display: inline-block;
+}
+
+nav ul li a:hover {
+    background-color: #007bff;
+    border-radius: 4px;
+}
+
+/* Highlight the current page */
+nav ul li a.current-page {
+    color: #53f04e; /* Highlight color */
+    border-radius: 4px;
+}
+
+/* Adjust body content to not go under the navbar */
+body {
+    padding-top: 60px; /* Adjust height based on navbar height */
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-image: url('assets/DMlogowebsite.png');
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    color: #333;
+    background-color: #0c0c0c;
+}
+
+/* Content Sections */
+header {
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    margin: 1rem auto;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+header p {
+    font-size: 1.2rem;
+}
+
+/* Content Box Styling */
+section {
+    background-color: rgba(255, 255, 255, 0.8); /* White background with slight transparency */
+    padding: 2rem;
+    margin: 1rem auto;
+    max-width: 900px;
+    text-align: left;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #282c34;
+    text-align: center;
+}
+
+p, ul {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+ul li {
+    display: flex;
+    align-items: center;
+    justify-content: center ;
+    margin: 1rem 0;
+}
+
+
+/* Two-column Prizes Section (Centered) */
+#prizes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.prize-content {
+    flex: 1;
+    text-align: left;
+}
+
+.prize-image {
+    width: 50%; /* Adjust image width */
+    text-align: right;
+}
+
+.prize-image img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.logo-img {
+    width: 100px;
+    height: auto;
+    border-radius: 4px;
+    align-items: center;
+    text-align: center;
+}
+
+/* Rules Section Styling */
+#rules {
+    background-color: rgba(255, 255, 255, 0.9); /* Background color */
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    text-align: left;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#rules h2 {
+    font-size: 2rem;
+    color: #282c34;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+#rules h3 {
+    font-size: 1.5rem;
+    color: #007bff;
+    margin-top: 1rem;
+}
+
+#rules p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    line-height: 1.6;
+}
+
+#rules .warning {
+    font-weight: bold;
+    color: #f00;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Links */
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+.centered-link {
+    display: block;  /* Makes the <a> tag block-level */
+    width: 200px;    /* Define a specific width */
+    margin: 0 auto;  /* Automatically adds equal margin to left and right */
+    text-align: center; /* Centers text inside the <a> */
+}
+/* Footer Styling */
+footer {
+    background-color: rgba(40, 44, 52, 0.9); /* Semi-transparent footer */
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+/* Ensure sections stay readable over the background */
+header, section, footer {
+    position: relative;
+    z-index: 1;
+}
