@@ -176,7 +176,7 @@ ORDER BY
             <div class="scoreboard-container">
                 <?php
                 // Include database connection configuration
-                $config = include('../private_html/config.php');
+                $config = include('../../private_html/config.php');
                 $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
                 // Check connection
