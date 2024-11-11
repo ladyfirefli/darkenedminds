@@ -2,11 +2,10 @@
 deployment:
   tasks:
   - export DEPLOYPATH=/home/darkened/public_html
-  - /bin/cp repositories/darkenedminds/index.html $DEPLOYPATH
-  - /bin/cp repositories/darkenedminds/robots.txt $DEPLOYPATH
-  - /bin/cp -R repositories/darkenedminds/admin $DEPLOYPATH
-  - /bin/cp -R repositories/darkenedminds/assets $DEPLOYPATH
-  - /bin/cp -R repositories/darkenedminds/css $DEPLOYPATH
-  - /bin/cp -R repositories/darkenedminds/js $DEPLOYPATH
-  - /bin/cp -R repositories/darkenedminds/services $DEPLOYPATH
-  - /bin/cp -R repositories/darkenedminds/pages $DEPLOYPATH
+  - /bin/cp index.html $DEPLOYPATH
+  - /bin/cp robots.txt $DEPLOYPATH
+  - /bin/cp -R /admin $DEPLOYPATH
+  - /bin/cp -R /assets $DEPLOYPATH
+  - /bin/cp -R /css $DEPLOYPATH
+  - /bin/cp -R /services $DEPLOYPATH
+  - /bin/cp -R /pages $DEPLOYPATH
