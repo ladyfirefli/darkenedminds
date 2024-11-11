@@ -9,4 +9,4 @@ deployment:
   - /bin/cp -R repositories/darkenedminds/css $DEPLOYPATH
   - /bin/cp -R repositories/darkenedminds/js $DEPLOYPATH
   - /bin/cp -R repositories/darkenedminds/services $DEPLOYPATH
-  - /bin/cp -R repositories/darkenedminds/view $DEPLOYPATH
+  - /bin/cp -R repositories/darkenedminds/pages $DEPLOYPATH

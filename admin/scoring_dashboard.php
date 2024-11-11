@@ -86,7 +86,7 @@ $stmt->close();
         <ul>
             <li><img src="../assets/DMlogowebsite.png" alt="Logo" class="logo-img"></li>
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../view/Tournament.php">Tournament</a></li>
+            <li><a href="../pages/Tournament.php">Tournament</a></li>
             <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
             <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
             <li><a href="scoring_dashboard.php" class="current-page">Scoring</a></li>

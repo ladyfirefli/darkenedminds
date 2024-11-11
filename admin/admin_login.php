@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <ul>
             <li><img src="../assets/DMlogowebsite.png" alt="Logo" class="logo-img"></li>
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../view/Tournament.php">Tournament</a></li>
+            <li><a href="../pages/Tournament.php">Tournament</a></li>
             <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
         </ul>
     </nav>
