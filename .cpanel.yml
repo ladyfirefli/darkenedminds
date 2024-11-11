@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-  - export DEPLOYPATH=/home/darkened/public_html
+  - export DEPLOYPATH=../../home/darkened/public_html
   - /bin/cp index.html $DEPLOYPATH
   - /bin/cp robots.txt $DEPLOYPATH
   - /bin/cp -R /admin $DEPLOYPATH
