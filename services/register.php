@@ -65,7 +65,7 @@ if ($stmt->execute()) {
     mail($to, $subject, $body, $headers);
 
     // Redirect to confirmation page
-    header("Location: ../regresponse.html");
+    header("Location: ../view/regresponse.html");
     exit;
 } else {
     echo "Error: " . $stmt->error;
