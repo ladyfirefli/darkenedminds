@@ -1,7 +1,7 @@
 <?php
 // Include necessary files and functions
-include 'services/get_signup_count.php';
-$config = include('../private_html/config.php');
+include '../services/get_signup_count.php';
+$config = include('../../private_html/config.php');
 
 // Fetch the signup count
 $signup_count = getSignupCount();
@@ -104,9 +104,9 @@ ORDER BY
     <nav>
         <ul>
             <li>
-                <img src="assets/DMlogowebsite.png" alt="Logo" class="logo-img">
+                <img src="../assets/DMlogowebsite.png" alt="Logo" class="logo-img">
             </li>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="../index.html">Home</a></li>
             <li><a href="Tournament.php" class="current-page">Tournament</a></li>
             <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
             <!-- <li><a href="streamers.html">Streamers</a></li> -->
@@ -264,14 +264,14 @@ ORDER BY
             <p>Include your Apex Legends stat screens and mention if you’re Master or Padawan!</p>
             <h3>Example stats screen:</h3>
             <div class="stats-image">
-                <img src="assets/Screenshot_2024-10-23_160750.png" alt="stats" class="stats-img">
+                <img src="../assets/Screenshot_2024-10-23_160750.png" alt="stats" class="stats-img">
             </div>
             <p>Hover over your Gamer Tag in the lobby and Inspect.</p>
 
             <!-- registration.html -->
             <div class="form-wrapper">
                 <div class="form-container">
-                    <form action="services/register.php" method="POST" enctype="multipart/form-data" class="registration-form">
+                    <form action="../services/register.php" method="POST" enctype="multipart/form-data" class="registration-form">
                         <h2>Tournament Registration</h2>
 
                         <div class="form-group">
@@ -319,7 +319,7 @@ ORDER BY
         <ul>
             <li>
                 <div class="prize-image">
-                    <img src="assets/banknotes_hires.png" alt="Cash" class="prize-img">
+                    <img src="../assets/banknotes_hires.png" alt="Cash" class="prize-img">
                 </div>
                 <div class="prize-content">
                     <strong>1st Place:</strong> Cash Pool
@@ -327,7 +327,7 @@ ORDER BY
             </li>
             <li>
                 <div class="prize-image">
-                    <img src="assets/hoodie.png" alt="Custom Hoodie" class="prize-img">
+                    <img src="../assets/hoodie.png" alt="Custom Hoodie" class="prize-img">
                 </div>
                 <div class="prize-content">
                     <strong>2nd Place:</strong> Custom Hoodie
@@ -335,7 +335,7 @@ ORDER BY
             </li>
             <li>
                 <div class="prize-image">
-                    <img src="assets/sticker.png" alt="Stickers" class="prize-img">
+                    <img src="../assets/sticker.png" alt="Stickers" class="prize-img">
                 </div>
                 <div class="prize-content">
                     <strong>3rd Place:</strong> Stickers
