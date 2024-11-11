@@ -1,12 +1,28 @@
----
-deployment:
-  tasks:
-  - export DEPLOYPATH=../../home/darkened/public_html
-  - /bin/cp index.html $DEPLOYPATH
-  - /bin/cp robots.txt $DEPLOYPATH
-  - /bin/cp -R /admin $DEPLOYPATH
-  - /bin/cp -R /assets $DEPLOYPATH
-  - /bin/cp -R /css $DEPLOYPATH
-  - /bin/cp -R /js $DEPLOYPATH
-  - /bin/cp -R /services $DEPLOYPATH
-  - /bin/cp -R /view $DEPLOYPATH
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set deploy path
+      run: echo "DEPLOYPATH=../../home/darkened/public_html" >> $GITHUB_ENV
+
+    - name: Copy files
+      run: |
+        cp index.html $DEPLOYPATH
+        cp robots.txt $DEPLOYPATH
+        cp -R admin $DEPLOYPATH
+        cp -R assets $DEPLOYPATH
+        cp -R css $DEPLOYPATH
+        cp -R js $DEPLOYPATH
+        cp -R services $DEPLOYPATH
+        cp -R view $DEPLOYPATH
