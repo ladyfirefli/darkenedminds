@@ -49,7 +49,7 @@ body {
     padding-top: 60px; /* Adjust height based on navbar height */
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-image: url('assets/MasterPadawan.png'); /* Background for the entire page */
+    background-image: url('../assets/MasterPadawan.png'); /* Background for the entire page */
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -60,7 +60,7 @@ body {
 
 /* Content Sections */
 header {
-    background-image: url('assets/TourneyHeader.png');
+    background-image: url('../assets/TourneyHeader.png');
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;

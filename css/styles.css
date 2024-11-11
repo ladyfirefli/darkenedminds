@@ -50,7 +50,7 @@ body {
     padding-top: 60px; /* Adjust height based on navbar height */
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-image: url('assets/DMlogowebsite.png');
+    background-image: url('../assets/DMlogowebsite.png');
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
