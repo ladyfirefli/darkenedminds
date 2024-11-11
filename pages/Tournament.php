@@ -175,14 +175,6 @@ ORDER BY
 
             <div class="scoreboard-container">
                 <?php
-                // Include database connection configuration
-                $config = include('../../private_html/config.php');
-                $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
-
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
 
                 // Fetch team data and scores for each round
                 for ($round_number = 1; $round_number <= 4; $round_number++) {
@@ -250,9 +242,6 @@ ORDER BY
 
                     $stmt->close();
                 }
-
-                // Close the connection
-                $conn->close();
                 ?>
             </div>
         </section>
