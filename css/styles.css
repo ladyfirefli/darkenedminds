@@ -47,7 +47,7 @@ nav ul li a.current-page {
 
 /* Adjust body content to not go under the navbar */
 body {
-    padding-top: 60px; /* Adjust height based on navbar height */
+    padding-top: 60px; /* Adjust height based on navbar height  */
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
     background-image: url('../assets/DMlogowebsite.png');
