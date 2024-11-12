@@ -2,92 +2,28 @@
 // Include necessary files and functions
 include '../services/get_signup_count.php';
 $config = include('../../private_html/config.php');
+include '../services/fetch_scores.php';
+include '../services/fetch_round_scores.php';
+include '../services/tournament_status.php';
 
 // Fetch the signup count
 $signup_count = getSignupCount();
 
-// Set the tournament started flag (you may set this based on a specific condition or a database flag)
-$tournament_started = true; // Set to false to show registration instead
-// $tournament_started = false; // Set to false to show registration instead
-// Database connection for fetching scores (if the tournament has started)
-$conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Check if the tournament has started
+$tournament_started = isTournamentStarted();
 
-// Query to fetch scores if tournament has started
+// Fetch scores only if the tournament has started
+$scores = [];
 if ($tournament_started) {
-    $sql_scores = "
-SELECT 
-    t.team_id,
-    master.gamertag AS master,
-    padawan.gamertag AS padawan,
-    COALESCE(master_scores.master_total_score, 0) AS master_total_score,
-    COALESCE(padawan_scores.padawan_total_score, 0) AS padawan_total_score,
-    COALESCE(total_scores.team_total_score, 0) AS team_total_score,  -- Total score for the team
-    COALESCE(total_revives.revives_total, 0) AS revives_total,       -- Total revives_points for the team
-    COALESCE(total_placement.placement_total, 0) AS placement_total  -- Total placement_points for the team
-FROM 
-    Teams t
-JOIN 
-    registrations master ON t.master_player_id = master.id  -- Join to get Master gamertag
-JOIN 
-    registrations padawan ON t.padawan_player_id = padawan.id  -- Join to get Padawan gamertag
-LEFT JOIN (
-    SELECT 
-        s.team_id,
-        SUM(s.master_kills_points + s.master_damage_points) AS master_total_score
-    FROM 
-        Scores s
-    GROUP BY 
-        s.team_id
-) AS master_scores ON t.team_id = master_scores.team_id
-LEFT JOIN (
-    SELECT 
-        s.team_id,
-        SUM(s.padawan_kills_points + s.padawan_damage_points) AS padawan_total_score
-    FROM 
-        Scores s
-    GROUP BY 
-        s.team_id
-) AS padawan_scores ON t.team_id = padawan_scores.team_id
-LEFT JOIN (
-    SELECT 
-        s.team_id,
-        SUM(s.total_score) AS team_total_score  -- Calculate the total_score for the team
-    FROM 
-        Scores s
-    GROUP BY 
-        s.team_id
-) AS total_scores ON t.team_id = total_scores.team_id
-LEFT JOIN (
-    SELECT 
-        s.team_id,
-        SUM(s.revives_points) AS revives_total  -- Calculate the total revives_points for the team
-    FROM 
-        Scores s
-    GROUP BY 
-        s.team_id
-) AS total_revives ON t.team_id = total_revives.team_id
-LEFT JOIN (
-    SELECT 
-        s.team_id,
-        SUM(s.placement_points) AS placement_total  -- Calculate the total placement_points for the team
-    FROM 
-        Scores s
-    GROUP BY 
-        s.team_id
-) AS total_placement ON t.team_id = total_placement.team_id
-GROUP BY 
-    t.team_id
-ORDER BY 
-    team_total_score DESC;  -- Sort by total score in descending order
-
-
-";
-    $result_scores = $conn->query($sql_scores);
+    $result_scores = fetchScores();
+    if ($result_scores && $result_scores->num_rows > 0) {
+        while ($row = $result_scores->fetch_assoc()) {
+            $scores[] = $row;
+        }
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -151,8 +87,8 @@ ORDER BY
                         <th>Total Revives Points</th> <!-- New column for total revives points -->
                         <th>Total Placement Points</th> <!-- New column for total placement points -->
                     </tr>
-                    <?php if ($result_scores && $result_scores->num_rows > 0): ?>
-                        <?php while ($row = $result_scores->fetch_assoc()): ?>
+                    <?php if (count($scores) > 0): ?>
+                        <?php foreach ($scores as $row): ?>
                             <tr>
                                 <!-- <td><?php echo htmlspecialchars($row['team_id']); ?></td> -->
                                 <td align="center"><?php echo htmlspecialchars($row['team_total_score']); ?></td>
@@ -163,7 +99,7 @@ ORDER BY
                                 <td align="center"><?php echo htmlspecialchars($row['revives_total']); ?></td> <!-- Display revives total -->
                                 <td align="center"><?php echo htmlspecialchars($row['placement_total']); ?></td> <!-- Display placement total -->
                             </tr>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
                             <td colspan="8">No scores available yet.</td>
@@ -180,35 +116,10 @@ ORDER BY
                 for ($round_number = 1; $round_number <= 4; $round_number++) {
                     echo "<h2 class='round-title'>Round $round_number Summary</h2>";
 
-                    $sql = "
-                SELECT 
-                    t.team_id,
-                    master.gamertag AS master,
-                    padawan.gamertag AS padawan,
-                    s.placement_points,
-                    s.master_kills_points,
-                    s.master_damage_points,
-                    s.padawan_kills_points,
-                    s.padawan_damage_points,
-                    s.revives_points,
-                    s.total_score
-                FROM 
-                    Scores s
-                JOIN 
-                    Teams t ON s.team_id = t.team_id
-                JOIN 
-                    registrations master ON t.master_player_id = master.id
-                JOIN 
-                    registrations padawan ON t.padawan_player_id = padawan.id
-                WHERE 
-                    s.round_number = ?
-                ORDER BY 
-                    s.total_score DESC";
-
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $round_number);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
+                    // Fetch scores for the current round
+                    $round_scores = fetchRoundScores($round_number);
+                    // Check if there are scores to display
+                    if (count($round_scores) > 0) {
 
                     // Display table for the round
                     echo "<table class='score-table'>
@@ -226,8 +137,8 @@ ORDER BY
                     </thead>
                     <tbody>";
 
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>
+                        foreach ($round_scores as $row) {
+                            echo "<tr>
                         <td>{$row['master']}</td>
                         <td>{$row['padawan']}</td>
                         <td>{$row['placement_points']}</td>
@@ -237,10 +148,11 @@ ORDER BY
                         <td>{$row['revives_points']}</td>
                         <td>{$row['total_score']}</td>
                       </tr>";
+                        }
+                        echo "</tbody></table>";
+                    } else {
+                        echo "<p>No scores available for this round.</p>";
                     }
-                    echo "</tbody></table>";
-
-                    $stmt->close();
                 }
                 ?>
             </div>
