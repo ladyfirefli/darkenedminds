@@ -22,15 +22,7 @@ CREATE TABLE IF NOT EXISTS Historical_Tournaments (
     FOREIGN KEY (padawan_player_id) REFERENCES registrations(id)
 );
 
--- Step 2: Update registrations table to track if the player is active in the current tournament
-ALTER TABLE registrations
-ADD COLUMN is_active TINYINT(1) DEFAULT 1,
-ADD COLUMN current_tournament_id INT,
-ADD COLUMN last_tournament_date DATE,
-ADD COLUMN registration_date DATE,
-ADD FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
-
--- Step 3: Tournament-Specific Metadata Table
+-- Step 2: Tournament-Specific Metadata Table
 CREATE TABLE Tournaments (
     tournament_id INT AUTO_INCREMENT PRIMARY KEY,
     tournament_name VARCHAR(100) NOT NULL,
@@ -41,6 +33,14 @@ CREATE TABLE Tournaments (
     point_structure JSON, -- JSON field for flexible point allocation and rules
     is_active TINYINT(1) DEFAULT 1
 );
+
+-- Step 3: Update registrations table to track if the player is active in the current tournament
+ALTER TABLE registrations
+ADD COLUMN is_active TINYINT(1) DEFAULT 1,
+ADD COLUMN current_tournament_id INT,
+ADD COLUMN last_tournament_date DATE,
+ADD COLUMN registration_date DATE,
+ADD FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
 
 -- Step 4: Link teams and scores to tournaments
 ALTER TABLE Teams
