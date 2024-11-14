@@ -25,7 +25,10 @@ CREATE TABLE IF NOT EXISTS Historical_Tournaments (
 -- Step 2: Update registrations table to track if the player is active in the current tournament
 ALTER TABLE registrations
 ADD COLUMN is_active TINYINT(1) DEFAULT 1,
-ADD COLUMN last_tournament_date DATE;
+ADD COLUMN current_tournament_id INT,
+ADD COLUMN last_tournament_date DATE,
+ADD COLUMN registration_date DATE,
+ADD FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
 
 -- Step 3: Tournament-Specific Metadata Table
 CREATE TABLE Tournaments (
