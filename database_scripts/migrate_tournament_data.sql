@@ -58,7 +58,26 @@ ALTER TABLE Scores
 ADD CONSTRAINT fk_scores_tournament_id
 FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
 
--- Step 5: Transfer existing data to the historical tournaments table
+-- Step 5: Create Tournament Entry for First Tournament
+INSERT INTO Tournaments (
+    tournament_name,
+    start_date,
+    registration_end_date,
+    end_date,
+    tournament_type,
+    point_structure,
+    is_active
+) VALUES (
+    'First Padawan Tournament 2024',           -- tournament_name
+    '2024-11-03',                        -- start_date
+    '2024-11-03',                        -- registration_end_date
+    '2024-11-03',                        -- end_date
+    'duos',                              -- tournament_type
+    '{"kills": 5, "damage": 2, "revives": 1}', -- point_structure (JSON format)
+    1                                    -- is_active
+);
+
+-- Step 6: Transfer existing data to the historical tournaments table
 INSERT INTO Historical_Tournaments (tournament_name, tournament_date, team_id, master_player_id, padawan_player_id, round_number, master_kills, padawan_kills, master_damage, padawan_damage, revives_points, placement_points, total_score)
 SELECT
     'Tournament Name', -- Replace with actual name
@@ -77,7 +96,7 @@ SELECT
 FROM Scores
 WHERE tournament_id = [Current Tournament ID];
 
--- Step 6: Reset Active tournaments
+-- Step 7: Reset Active tournaments
 DELETE FROM Scores WHERE tournament_id = [Current Tournament ID];
 DELETE FROM Teams WHERE tournament_id = [Current Tournament ID];
 UPDATE registrations SET is_active = 0 WHERE tournament_id = [Current Tournament ID]; -- Optional for managing active players
