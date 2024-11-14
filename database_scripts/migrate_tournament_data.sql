@@ -31,7 +31,9 @@ CREATE TABLE Tournaments (
     end_date DATE,
     tournament_type ENUM('standard', 'duos', 'trios') DEFAULT 'standard',
     point_structure JSON, -- JSON field for flexible point allocation and rules
-    is_active TINYINT(1) DEFAULT 1
+    is_active TINYINT(1) DEFAULT 1,
+    entry_fee DECIMAL(10, 2) DEFAULT 0.00,
+    seed_money DECIMAL(10, 2) DEFAULT 0.00;
 );
 
 -- Step 3: Update registrations table to track if the player is active in the current tournament
@@ -66,7 +68,9 @@ INSERT INTO Tournaments (
     end_date,
     tournament_type,
     point_structure,
-    is_active
+    is_active,
+    entry_fee,
+    seed_money
 ) VALUES (
     'First Padawan Tournament 2024',           -- tournament_name
     '2024-11-03',                        -- start_date
@@ -74,14 +78,26 @@ INSERT INTO Tournaments (
     '2024-11-03',                        -- end_date
     'duos',                              -- tournament_type
     '{"kills": 5, "damage": 2, "revives": 1}', -- point_structure (JSON format)
-    1                                    -- is_active
+    1,                                   -- is_active
+    2,                                   -- entry_fee
+    50                                   -- seed_money
 );
+
+-- Step 6: Update all existing data with the new Tournament ID
+UPDATE Scores
+SET tournament_id = 1;
+
+UPDATE Teams
+SET tournament_id = 1;
+
+UPDATE registrations
+SET current_tournament_id = 1;
 
 -- Step 6: Transfer existing data to the historical tournaments table
 INSERT INTO Historical_Tournaments (tournament_name, tournament_date, team_id, master_player_id, padawan_player_id, round_number, master_kills, padawan_kills, master_damage, padawan_damage, revives_points, placement_points, total_score)
 SELECT
-    'Tournament Name', -- Replace with actual name
-    CURDATE(), -- Or the actual end date
+    'First Padawan Tournament 2024', -- Replace with actual name
+    '2024-11-03', -- Or the actual end date
     team_id,
     master_player_id,
     padawan_player_id,
@@ -94,9 +110,9 @@ SELECT
     placement_points,
     total_score
 FROM Scores
-WHERE tournament_id = [Current Tournament ID];
+WHERE tournament_id = 1;
 
 -- Step 7: Reset Active tournaments
-DELETE FROM Scores WHERE tournament_id = [Current Tournament ID];
-DELETE FROM Teams WHERE tournament_id = [Current Tournament ID];
-UPDATE registrations SET is_active = 0 WHERE tournament_id = [Current Tournament ID]; -- Optional for managing active players
+DELETE FROM Scores WHERE tournament_id = 1;
+DELETE FROM Teams WHERE tournament_id = 1;
+UPDATE registrations SET is_active = 0 WHERE tournament_id = 1; -- Optional for managing active players
