@@ -16,10 +16,12 @@ CREATE TABLE IF NOT EXISTS Historical_Tournaments (
     revives_points INT,
     placement_points INT,
     total_score DECIMAL(10,0),
+    tournament_id INT NOT NULL,
     -- Add additional fields as needed
     FOREIGN KEY (team_id) REFERENCES Teams(team_id),
     FOREIGN KEY (master_player_id) REFERENCES registrations(id),
-    FOREIGN KEY (padawan_player_id) REFERENCES registrations(id)
+    FOREIGN KEY (padawan_player_id) REFERENCES registrations(id),
+    FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id)
 );
 
 -- Step 2: Tournament-Specific Metadata Table
@@ -34,6 +36,30 @@ CREATE TABLE Tournaments (
     is_active TINYINT(1) DEFAULT 1,
     entry_fee DECIMAL(10, 2) DEFAULT 0.00,
     seed_money DECIMAL(10, 2) DEFAULT 0.00;
+);
+
+CREATE TABLE Tournament_Finances (
+    finance_id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_id INT NOT NULL,
+    seed_money DECIMAL(10, 2) DEFAULT 0.00,
+    entry_fee DECIMAL(10, 2) NOT NULL,         -- Adding entry_fee as a column
+    registration_count INT DEFAULT 0,           -- Adding registration_count as a column
+    total_expected_pot DECIMAL(10, 2) GENERATED ALWAYS AS (entry_fee * registration_count) STORED,
+    total_collected DECIMAL(10, 2) DEFAULT 0.00,
+    difference DECIMAL(10, 2) GENERATED ALWAYS AS (total_collected - total_expected_pot) STORED,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id)
+);
+
+CREATE TABLE Tournament_Prizes (
+    prize_id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_id INT NOT NULL,
+    first_place_prize DECIMAL(10, 2),             -- Cash prize based on the tournament pot
+    second_place_description VARCHAR(255),        -- Item description for second place
+    second_place_cost DECIMAL(10, 2) DEFAULT 0.00, -- Cost of the second-place prize
+    third_place_description VARCHAR(255),         -- Item description for third place
+    third_place_cost DECIMAL(10, 2) DEFAULT 0.00, -- Cost of the third-place prize
+    FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id)
 );
 
 -- Step 3: Update registrations table to track if the player is active in the current tournament
@@ -94,7 +120,7 @@ UPDATE registrations
 SET current_tournament_id = 1;
 
 -- Step 6: Transfer existing data to the historical tournaments table
-INSERT INTO Historical_Tournaments (tournament_name, tournament_date, team_id, master_player_id, padawan_player_id, round_number, master_kills, padawan_kills, master_damage, padawan_damage, revives_points, placement_points, total_score)
+INSERT INTO Historical_Tournaments (tournament_name, tournament_date, team_id, master_player_id, padawan_player_id, round_number, master_kills, padawan_kills, master_damage, padawan_damage, revives_points, placement_points, total_score, tournament_id)
 SELECT
     'First Padawan Tournament 2024', -- Replace with actual name
     '2024-11-03', -- Or the actual end date
@@ -108,7 +134,8 @@ SELECT
     padawan_damage,
     revives_points,
     placement_points,
-    total_score
+    total_score,
+    tournament_id
 FROM Scores
 WHERE tournament_id = 1;
 
