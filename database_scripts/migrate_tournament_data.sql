@@ -48,14 +48,15 @@ ADD COLUMN tournament_id INT;
 
 ALTER TABLE Teams
 ADD CONSTRAINT fk_teams_tournament_id
-ADD FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
+FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
+
 
 ALTER TABLE Scores
 ADD COLUMN tournament_id INT;
 
 ALTER TABLE Scores
 ADD CONSTRAINT fk_scores_tournament_id
-ADD FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
+FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
 
 -- Step 5: Transfer existing data to the historical tournaments table
 INSERT INTO Historical_Tournaments (tournament_name, tournament_date, team_id, master_player_id, padawan_player_id, round_number, master_kills, padawan_kills, master_damage, padawan_damage, revives_points, placement_points, total_score)
