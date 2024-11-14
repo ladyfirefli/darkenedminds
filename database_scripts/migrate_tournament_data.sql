@@ -120,24 +120,41 @@ UPDATE registrations
 SET current_tournament_id = 1;
 
 -- Step 6: Transfer existing data to the historical tournaments table
-INSERT INTO Historical_Tournaments (tournament_name, tournament_date, team_id, master_player_id, padawan_player_id, round_number, master_kills, padawan_kills, master_damage, padawan_damage, revives_points, placement_points, total_score, tournament_id)
-SELECT
-    'First Padawan Tournament 2024', -- Replace with actual name
-    '2024-11-03', -- Or the actual end date
-    team_id,
-    master_player_id,
-    padawan_player_id,
-    round_number,
-    master_kills,
-    padawan_kills,
-    master_damage,
-    padawan_damage,
-    revives_points,
-    placement_points,
-    total_score,
+INSERT INTO Historical_Tournaments (
+    tournament_name, 
+    tournament_date, 
+    team_id, 
+    master_player_id, 
+    padawan_player_id, 
+    round_number, 
+    master_kills, 
+    padawan_kills, 
+    master_damage, 
+    padawan_damage, 
+    revives_points, 
+    placement_points, 
+    total_score, 
     tournament_id
+)
+SELECT
+    'First Padawan Tournament 2024',         -- Tournament name
+    '2024-11-03',                            -- Tournament date
+    Scores.team_id,
+    Teams.master_player_id,
+    Teams.padawan_player_id,
+    Scores.round_number,
+    Scores.master_kills,
+    Scores.padawan_kills,
+    Scores.master_damage,
+    Scores.padawan_damage,
+    Scores.revives_points,
+    Scores.placement_points,
+    Scores.total_score,
+    Scores.tournament_id
 FROM Scores
-WHERE tournament_id = 1;
+JOIN Teams ON Scores.team_id = Teams.team_id
+WHERE Scores.tournament_id = 1;
+
 
 -- Step 7: Reset Active tournaments
 DELETE FROM Scores WHERE tournament_id = 1;
