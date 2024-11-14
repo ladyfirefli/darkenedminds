@@ -44,12 +44,12 @@ ADD FOREIGN KEY (current_tournament_id) REFERENCES Tournaments(tournament_id);
 
 -- Step 4: Link teams and scores to tournaments
 ALTER TABLE Teams
-ADD COLUMN tournament_id INT,
-ADD FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
+ADD COLUMN fk_teams_tournament_id INT,
+ADD FOREIGN KEY (fk_teams_tournament_id) REFERENCES Tournaments(tournament_id);
 
 ALTER TABLE Scores
-ADD COLUMN tournament_id INT,
-ADD FOREIGN KEY (tournament_id) REFERENCES Tournaments(tournament_id);
+ADD COLUMN fk_scores_tournament_id INT,
+ADD FOREIGN KEY (fk_scores_tournament_id) REFERENCES Tournaments(tournament_id);
 
 -- Step 5: Transfer existing data to the historical tournaments table
 INSERT INTO Historical_Tournaments (tournament_name, tournament_date, team_id, master_player_id, padawan_player_id, round_number, master_kills, padawan_kills, master_damage, padawan_damage, revives_points, placement_points, total_score)
@@ -68,9 +68,9 @@ SELECT
     placement_points,
     total_score
 FROM Scores
-WHERE tournament_id = [Current Tournament ID];
+WHERE fk_scores_tournament_id = [Current Tournament ID];
 
 -- Step 6: Reset Active tournaments
-DELETE FROM Scores WHERE tournament_id = [Current Tournament ID];
-DELETE FROM Teams WHERE tournament_id = [Current Tournament ID];
-UPDATE registrations SET is_active = 0 WHERE tournament_id = [Current Tournament ID]; -- Optional for managing active players
+DELETE FROM Scores WHERE fk_scores_tournament_id = [Current Tournament ID];
+DELETE FROM Teams WHERE fk_teams_tournament_id = [Current Tournament ID];
+UPDATE registrations SET is_active = 0 WHERE fk_teams_tournament_id = [Current Tournament ID]; -- Optional for managing active players
