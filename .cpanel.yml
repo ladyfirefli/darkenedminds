@@ -7,5 +7,12 @@ deployment:
   - /bin/cp -R admin $DEPLOYPATH
   - /bin/cp -R assets $DEPLOYPATH
   - /bin/cp -R css $DEPLOYPATH
+  - /bin/cp -R database_scripts $DEPLOYPATH
   - /bin/cp -R services $DEPLOYPATH
   - /bin/cp -R pages $DEPLOYPATH
+
+- name: Execute SQL migrations
+    run: |
+      mysql -u root -p"root" -h localhost darkened_padawan_tournament < database_scripts/migrate_tournament_data.sql
+      # mysql -u darkened_admin -p"]{M_Bu2HjA4t" -h localhost darkened_padawan_tournament < database_scripts/migrate_tournament_data.sql
+       
