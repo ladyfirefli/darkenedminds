@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('admin_functions.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -7,102 +8,31 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     exit;
 }
 
-// Include database connection configuration
-$config = include('../../private_html/config.php');
-
 // Connect to the database
-$conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
+$conn = getDatabaseConnection();
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Fetch data
+$result_registrants = fetchRegistrants($conn);
+$masters_result = fetchAvailableMasters($conn);
+$padawans_result = fetchAvailablePadawans($conn);
+$teams_result = fetchTeams($conn);
 
-// Fetch registrations
-$sql_registrants = "SELECT gamertag, email, role, partner, fee_received, last_season_KDR, last_season_avg FROM registrations ORDER BY last_season_avg DESC";
-$result_registrants = $conn->query($sql_registrants);
 
-// Fetch available Masters and Padawans who are not yet paired in a team
-$sql_available_masters = "
-    SELECT id, gamertag 
-    FROM registrations 
-    WHERE role = 'Master' 
-    AND id NOT IN (SELECT master_player_id FROM Teams)";
-$masters_result = $conn->query($sql_available_masters);
-
-$sql_available_padawans = "
-    SELECT id, gamertag 
-    FROM registrations 
-    WHERE role = 'Padawan' 
-    AND id NOT IN (SELECT padawan_player_id FROM Teams)";
-$padawans_result = $conn->query($sql_available_padawans);
-
-// Fetch teams for the dropdown
-$sql_teams = "SELECT t.team_id, 
-                     master.gamertag AS master, 
-                     padawan.gamertag AS padawan 
-              FROM Teams t
-              JOIN registrations master ON t.master_player_id = master.id 
-              JOIN registrations padawan ON t.padawan_player_id = padawan.id";
-$teams_result = $conn->query($sql_teams);
-if (!$teams_result) {
-    die("Query failed: " . $conn->error);
-}
 // Handle team creation
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['master_id'], $_POST['padawan_id'])) {
-    $master_id = (int)$_POST['master_id'];
-    $padawan_id = (int)$_POST['padawan_id'];
-
-    // Insert the new team into the Teams table
-    $sql_insert_team = "INSERT INTO Teams (master_player_id, padawan_player_id) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql_insert_team);
-    $stmt->bind_param("ii", $master_id, $padawan_id);
-    $stmt->execute();
-
-    // Get the ID of the newly created team
-    $new_team_id = $stmt->insert_id;
-    $stmt->close();
-
-    // Insert initial score entry into Scores table for round zero
-    $sql_insert_score = "
-        INSERT INTO Scores (team_id, round_number, master_kills, master_damage, master_revives, padawan_kills, padawan_damage, padawan_revives, placement) 
-        VALUES (?, 1, 0, 0, 0, 0, 0, 0, ?)";
-    $stmt = $conn->prepare($sql_insert_score);
-    $placement = 0; // Or any other initial placement value you want to set
-
-    // Bind parameters for the team ID and placement
-    $stmt->bind_param("ii", $new_team_id, $placement); // Assuming $placement is defined in your code
-    $stmt->execute();
-    $stmt->close();
-
-    // Refresh available players and teams after creation
-    $masters_result = $conn->query($sql_available_masters);
-    $padawans_result = $conn->query($sql_available_padawans);
-    $teams_result = $conn->query($sql_teams); // Refresh the teams result after a new team is created
+    createTeam($conn, (int)$_POST['master_id'], (int)$_POST['padawan_id']);
+    // Refresh the data
+    $masters_result = fetchAvailableMasters($conn);
+    $padawans_result = fetchAvailablePadawans($conn);
+    $teams_result = fetchTeams($conn);
 }
 
 // Handle team deletion
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_team_id'])) {
-    $team_id = (int)$_POST['delete_team_id'];
-
-    // Delete associated scores from Scores table
-    $sql_delete_scores = "DELETE FROM Scores WHERE team_id = ?";
-    $stmt = $conn->prepare($sql_delete_scores);
-    $stmt->bind_param("i", $team_id);
-    $stmt->execute();
-    $stmt->close();
-
-    // Delete team from Teams table
-    $sql_delete_team = "DELETE FROM Teams WHERE team_id = ?";
-    $stmt = $conn->prepare($sql_delete_team);
-    $stmt->bind_param("i", $team_id);
-    $stmt->execute();
-    $stmt->close();
-
+    deleteTeam($conn, (int)$_POST['delete_team_id']);
     // Refresh teams after deletion
-    $teams_result = $conn->query($sql_teams);
+    $teams_result = fetchTeams($conn);
 }
-
 
 
 ?>
