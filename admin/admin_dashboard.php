@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_team_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Tournament</title>
-    <link rel="stylesheet" href="../css/tourneystyles.css">
+    <link rel="stylesheet" href="../css/adminstyles.css">
 </head>
 
 <body>
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_team_id'])) {
             <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
             <li><a href="admin_dashboard.php" class="current-page">Admin Dashboard</a></li>
             <li><a href="scoring_dashboard.php">Scoring</a></li>
-            <li><a href="../../private_html/services/logout.php">Logout</a></li>
+            <li><a href="../services/logout.php">Logout</a></li>
         </ul>
     </nav>
 

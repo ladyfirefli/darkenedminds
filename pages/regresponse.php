@@ -49,17 +49,8 @@
   </style>
 </head>
 <body>
-          <!-- Navigation Bar -->
-          <nav>
-            <ul>
-                <li>
-                    <img src="../assets/DMlogowebsite.png" alt="Logo" class="logo-img"></li>
-                <li><a href="../index.html" class="current-page">Home</a></li>
-                <li><a href="Tournament.php">Tournament</a></li>
-                <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
-                <!-- <li><a href="streamers.html">Streamers</a></li> -->
-            </ul>
-        </nav>
+   <!-- Navigation Bar -->
+   <?php include 'navbar.php'; ?>
 
   <div class="email-container">
     <div class="header">

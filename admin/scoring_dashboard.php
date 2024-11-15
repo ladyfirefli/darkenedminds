@@ -66,7 +66,7 @@ $stmt->close();
 <head>
     <meta charset="UTF-8">
     <title>Scoring Dashboard</title>
-    <link rel="stylesheet" href="../css/tourneystyles.css">
+    <link rel="stylesheet" href="../css/adminstyles.css">
     <style>
         /* Styling for narrower input fields */
         input[type="number"] {
@@ -90,7 +90,7 @@ $stmt->close();
             <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
             <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
             <li><a href="scoring_dashboard.php" class="current-page">Scoring</a></li>
-            <li><a href="../../private_html/services/logout.php">Logout</a></li>
+            <li><a href="../services/logout.php">Logout</a></li>
         </ul>
     </nav>
     <section id="scoring">

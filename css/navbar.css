@@ -1,0 +1,73 @@
+/* Navigation Bar Styling */
+nav {
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+    position: fixed; /* Make navbar stay at the top */
+    width: 100%;
+    top: 0;
+    z-index: 999;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 14px 20px;
+    display: inline-block;
+}
+
+nav ul li a:hover {
+    background-color: #007bff;
+    border-radius: 4px;
+}
+
+/* Highlight the current page */
+nav ul li a.current-page {
+    color: #53f04e; /* Highlight color */
+    border-radius: 4px;
+}
+
+/* Dropdown menu styling */
+.dropdown .submenu {
+    display: none; /* Hide submenu by default */
+    position: absolute;
+    top: 100%; /* Position submenu below the parent item */
+    left: 0;
+    background-color: #333; /* Adjust as needed */
+    padding: 0;
+    list-style-type: none;
+    border-radius: 4px;
+    min-width: 150px;
+    z-index: 10;
+}
+
+.dropdown:hover .submenu {
+    display: block; /* Show submenu on hover */
+}
+
+.submenu li {
+    margin: 0;
+}
+
+.submenu li a {
+    display: block;
+    padding: 10px;
+    color: white; /* Adjust text color */
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.submenu li a:hover {
+    background-color: #555; /* Change background color on hover */
+}

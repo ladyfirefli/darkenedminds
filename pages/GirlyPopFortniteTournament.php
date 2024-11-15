@@ -39,7 +39,6 @@ if ($tournament_started) {
    <!-- Navigation Bar -->
    <?php include 'navbar.php'; ?>
 
-
     <header>
         <div class="header-content">
         </div>
