@@ -4,17 +4,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header("Location: ../admin/admin_login.php");
     exit;
 }
-
-// Include database configuration
-$config = include('../../private_html/config.php');
-$conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
-
-// Check connection
-if ($conn->connect_error) {
-    $_SESSION['reset_message'] = "Connection failed: " . $conn->connect_error;
-    header("Location: ../admin/admin_dashboard.php");
-    exit;
-}
+// Include database connection and helper functions
+include_once 'database.php';  
+$conn = getDatabaseConnection();
 
 // Define the number of rounds to prepopulate
 $num_rounds = 5;

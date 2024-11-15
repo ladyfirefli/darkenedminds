@@ -1,13 +1,12 @@
 <?php
 session_start();
-$config = include('../../private_html/config.php');
-$conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include database connection and helper functions
+include_once 'database.php';  
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['team_id'], $_POST['round_number'])) {
+    $conn = getDatabaseConnection();
+
     $team_id = (int)$_POST['team_id'];
     $round_number = (int)$_POST['round_number'];
     $placement = (int)$_POST['placement'];

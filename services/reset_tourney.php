@@ -7,15 +7,13 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 // Include database connection configuration
 $config = include('../../private_html/config.php');
+// Include database connection and helper functions
+include_once 'database.php';  
 
 // Function to reset tables and IDs
 function resetTeamsAndScores($config) {
     // Connect to the database
-    $conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
-
-    if ($conn->connect_error) {
-        return "Connection failed: " . $conn->connect_error;
-    }
+     $conn = getDatabaseConnection();
 
     // Start transaction to ensure atomic operation
     $conn->begin_transaction();

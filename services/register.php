@@ -1,13 +1,8 @@
 <?php
-$config = include('../../private_html/config.php');
 
-// Database connection
-$conn = new mysqli($config['servername'], $config['username'], $config['password'], $config['dbname']);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include database connection and helper functions
+include_once 'database.php';  
+$conn = getDatabaseConnection();
 
 // Get form data
 $gamertag = $_POST['gamertag'];
