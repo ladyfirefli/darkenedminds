@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('admin_functions.php');
+include('../services/admin_functions.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -134,13 +134,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_team_id'])) {
         <form action="../services/reset_tourney.php" method="POST">
             <button type="submit" name="reset_tourney">Reset Everything</button>
         </form>
-    </section>
     <?php
 if (isset($_SESSION['reset_message'])) {
     echo "<p>" . htmlspecialchars($_SESSION['reset_message']) . "</p>";
     unset($_SESSION['reset_message']);
 }
 ?>
+    </section>
 
 <section id="registrants">
         <h2>Tournament Registrants</h2>
