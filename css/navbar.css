@@ -4,31 +4,35 @@ nav {
     position: fixed; /* Make navbar stay at the top */
     width: 100%;
     top: 0;
-    z-index: 999;
+    z-index: 999; /* Keep navbar above all other elements */
     text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
 }
 
 nav ul {
     list-style-type: none;
-    padding: 0;
+    padding: 10px 0; /* Add padding for better spacing */
     margin: 0;
+    display: flex; /* Ensure horizontal alignment */
+    justify-content: center; /* Center-align navbar items */
 }
 
 nav ul li {
-    display: inline;
-    margin-right: 20px;
+    margin: 0 15px; /* Even spacing between items */
 }
 
 nav ul li a {
     color: white;
     text-decoration: none;
     font-size: 1.1rem;
-    padding: 14px 20px;
+    padding: 10px 15px; /* Adjust padding for better click area */
     display: inline-block;
+    border-radius: 4px;
+    transition: background-color 0.3s; /* Smooth hover effect */
 }
 
 nav ul li a:hover {
-    background-color: #007bff;
+    background-color: #007bff; /* Highlight on hover */
     border-radius: 4px;
 }
 
@@ -39,17 +43,28 @@ nav ul li a.current-page {
 }
 
 /* Dropdown menu styling */
+.dropdown {
+    position: relative; /* Ensure proper submenu positioning */
+}
+
 .dropdown .submenu {
     display: none; /* Hide submenu by default */
     position: absolute;
     top: 100%; /* Position submenu below the parent item */
     left: 0;
-    background-color: #333; /* Adjust as needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
     padding: 0;
     list-style-type: none;
     border-radius: 4px;
-    min-width: 150px;
+    min-width: 150px; /* Ensure enough space for menu items */
     z-index: 10;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for dropdown */
+}
+
+.logo-img {
+    width: 100px;
+    height: auto;
+    border-radius: 4px;
 }
 
 .dropdown:hover .submenu {
@@ -63,11 +78,23 @@ nav ul li a.current-page {
 .submenu li a {
     display: block;
     padding: 10px;
-    color: white; /* Adjust text color */
+    color: white;
     text-decoration: none;
     white-space: nowrap;
 }
 
 .submenu li a:hover {
     background-color: #555; /* Change background color on hover */
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column; /* Stack items vertically */
+        padding: 0;
+    }
+
+    nav ul li {
+        margin: 10px 0; /* Add vertical spacing */
+    }
 }

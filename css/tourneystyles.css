@@ -5,24 +5,23 @@
     box-sizing: border-box;
 }
 
-
 /* Adjust body content to not go under the navbar */
 body {
     padding-top: 60px; /* Adjust height based on navbar height */
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-image: url('../assets/073_AwardsGlitters6.jpg'); /*Background for the entire page*/
+    background-image: url('../assets/Breeze.jpg'); /* Background for the entire page */
     background-attachment: fixed;
     background-position: center;
-    background-repeat:backdrop;
-    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: cover;
     color: #333;
     background-color: #0c0c0c;
 }
 
-/* Content Sections */
+/* Header Section */
 header {
-    background-image: url('../assets/FortniteTourney.png');
+    background-image: url('../assets/FortniteTourneyWinterClassic8.png');
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -34,10 +33,17 @@ header {
     color: white;
     padding: 2rem;
     margin: 1rem auto;
+    margin: 0 auto; /* Remove static top margin */
+    box-sizing: border-box; /* Include padding in the element's size */
 }
 
+ /* section {
+    margin-top: 20px; /* Add spacing to ensure no overlap with navbar 
+} */
+
+
 header h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 0.5rem;
 }
 
@@ -45,15 +51,62 @@ header p {
     font-size: 1.2rem;
 }
 
-/* Content Box Styling */
-section {
-    background-color: rgba(255, 255, 255, 0.8); /* White background with slight transparency */
-    padding: 2rem;
-    margin: 1rem auto;
-    max-width: 900px;
-    text-align: left;
-    border-radius: 8px;
+/* Flexbox Layout for Sections */
+.section-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    background: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    flex: 1;
+    min-width: 300px;
+    /* max-width: 400px; */
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.card h2 {
+    background: #007bff;
+    color: #fff;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-content p,
+.card-content ul {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.card-content ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.card-content ul li {
+    margin: 0.5rem 0;
+}
+
+/* Content Sections */
+section {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
 }
 
 h2 {
@@ -63,7 +116,8 @@ h2 {
     text-align: center;
 }
 
-p, ul {
+p,
+ul {
     font-size: 1.1rem;
     color: #555;
 }
@@ -71,128 +125,63 @@ p, ul {
 ul {
     list-style-type: none;
     padding: 0;
-    width: 100%;
-    max-width: 600px;
 }
 
 ul li {
     display: flex;
     align-items: center;
-    justify-content: center ;
     margin: 1rem 0;
 }
 
-/* Scoring Section Styling */
-#scoring {
-    background-color: rgba(255, 255, 255, 0.9); /* Background color */
-    padding: 2rem;
-    margin: 2rem auto;
-    max-width: 900px;
-    text-align: left;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#scoring h2 {
-    font-size: 2rem;
-    color: #282c34;
-    margin-bottom: 1rem;
-    text-align: center;
-}
-
-#scoring h3 {
-    font-size: 1.5rem;
-    color: #007bff;
-    margin-top: 1rem;
-}
-
-#scoring p, #scoring ul {
-    font-size: 1rem;
-    margin: 0.5rem 0;
-    line-height: 1.6;
-}
-
-#scoring ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-#scoring ul li {
-    margin: 0.5rem 0;
-    justify-content: left;
-}
-
-
-/* Two-column Prizes Section (Centered) */
+/* Prizes Section */
 #prizes {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* gap: 20px; */
 }
 
 .prize-content {
-    flex: 1;
-    text-align: left;
-}
-
-.prize-image {
-    width: 50%; /* Adjust image width */
-    text-align: right;
+    text-align: center;
+    font-size: 1.1rem;
 }
 
 .prize-image img {
     max-width: 100px;
     height: auto;
-    border-radius: 4px;
+    margin: 10px 0;
 }
 
-.logo-img {
-    width: 100px;
-    height: auto;
-    border-radius: 4px;
-}
-
-.stats-image img{
-    max-width: 400px;
-    height: auto;
-    border-radius: 4px;
-    text-align: center;
-}
-/* Container for the form */
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-}
-/* Centering container for the form */
+/* Form Container */
 .form-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh; /* Adjust to fit available viewport */
+    min-height: 80vh;
     padding: 20px;
 }
-/* Style for the form */
+
+.form-container {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+}
+
 .registration-form {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-/* Form heading */
 .registration-form h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #333333;
+    color: #333;
 }
 
-/* Form groups for label/input alignment */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -201,17 +190,16 @@ ul li {
 
 .form-group label {
     margin-bottom: 5px;
-    color: #555555;
+    color: #555;
     font-weight: bold;
 }
 
-/* Input styling */
 .registration-form input[type="text"],
 .registration-form input[type="email"],
 .registration-form input[type="file"] {
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     border-radius: 5px;
 }
 
@@ -219,12 +207,11 @@ ul li {
     margin-right: 5px;
 }
 
-/* Button styling */
 .registration-form button {
     padding: 12px;
     font-size: 16px;
     background-color: #007bff;
-    color: #ffffff;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -234,27 +221,12 @@ ul li {
 .registration-form button:hover {
     background-color: #0056b3;
 }
-/* Links */
-a {
-    color: #007bff;
-    text-decoration: none;
-}
 
-a:hover {
-    text-decoration: underline;
-}
-
-/* Footer Styling */
+/* Footer */
 footer {
-    background-color: rgba(40, 44, 52, 0.9); /* Semi-transparent footer */
+    background-color: rgba(40, 44, 52, 0.9);
     color: white;
     text-align: center;
     padding: 1rem;
-    margin-top: 2rem;
-}
-
-/* Ensure sections stay readable over the background */
-header, section, footer {
-    position: relative;
-    z-index: 1;
+    margin-top: 20px;
 }

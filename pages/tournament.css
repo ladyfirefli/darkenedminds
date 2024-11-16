@@ -1,0 +1,83 @@
+/* Header Styling */
+.tournament-header {
+    background: linear-gradient(to right, #111, #333);
+    color: white;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.tournament-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.tournament-header p {
+    font-size: 1.2rem;
+}
+
+/* Section Styling */
+section {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.current-tournament, .past-tournaments {
+    margin-bottom: 40px;
+}
+
+.current-tournament h2, .past-tournaments h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Tournament Cards */
+.tournament-card {
+    background-color: #222;
+    color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.tournament-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+}
+
+.tournament-card p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.tournament-card a.button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #444;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.tournament-card a.button:hover {
+    background-color: #666;
+}
+
+/* Grid Layout for Past Tournaments */
+.tournament-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #111;
+    color: white;
+}
