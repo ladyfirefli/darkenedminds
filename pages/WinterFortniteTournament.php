@@ -52,24 +52,38 @@ $config = include('../../private_html/config.php');
                 <h2>Registration</h2>
                 <div class="card-content">
                     <p>To register, fill out the form below.</p>
-                   <p>Please ensure your stats are public in Fortnite so we can attempt to balance teams!</p>
+                    <p>Please ensure your stats are public in Fortnite so we can attempt to balance teams!</p>
 
                     <div class="form-wrapper">
                         <form action="../services/register.php" method="POST" enctype="multipart/form-data" class="registration-form">
+                            <div class="form-group">
+                                <label for="discord_name">Discord Name:</label>
+                                <input type="text" id="discord_name" name="discord_name" onblur="fetchDiscordInfo()" required>
+                                <div id="discord-info-message"></div> <!-- Display validation or info here -->
+                            </div>
                             <div class="form-group">
                                 <label for="gamertag">GamerTag:</label>
                                 <input type="text" name="gamertag" required>
                             </div>
                             <div class="form-group">
+                                <label for="platform">Select Your Platform:</label>
+                                <div>
+                                    <input type="radio" id="pc" name="platform" value="pc" required>
+                                    <label for="pc">PC</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="xbox" name="platform" value="xbox" required>
+                                    <label for="xbox">Xbox</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="psn" name="platform" value="psn" required>
+                                    <label for="psn">PlayStation</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="email">Email (optional):</label>
                                 <input type="email" name="email">
                             </div>
-                            <div class="form-group">
-                                <label for="discord_name">Discord Name:</label>
-                                <input type="text" id="discord_name" name="discord_name" required>
-                            </div>
-
-
                             <button type="submit">Register</button>
                         </form>
                     </div>

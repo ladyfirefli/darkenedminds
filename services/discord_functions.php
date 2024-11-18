@@ -1,5 +1,33 @@
 <?php
 
+function verifyDiscordName($discord_name) {
+    if (!$discord_name) {
+        return [
+            'success' => false,
+            'message' => 'Discord Name is required.',
+        ];
+    }
+
+    // Fetch Discord data
+    $member_data = checkDiscordMember($discord_name);
+
+    if ($member_data) {
+        return [
+            'success' => true,
+            'discord_id' => $member_data['discord_id'],
+            'discord_username' => $member_data['discord_username'],
+            'discord_discriminator' => $member_data['discord_discriminator'],
+            'discord_roles' => $member_data['discord_roles'],
+            'discord_joined_at' => $member_data['discord_joined_at'],
+        ];
+    } else {
+        return [
+            'success' => false,
+            'message' => 'Discord name not found in the server. Please join the Discord server first.',
+        ];
+    }
+}
+
 function checkDiscordMember($discord_name)
 {
     $discord_config = include '../../private_html/discord_config.php';
@@ -51,3 +79,4 @@ function checkDiscordMember($discord_name)
     // If no matching member found
     return false;
 }
+
