@@ -7,27 +7,33 @@ $conn = getTourneyDatabaseConnection();
 require_once('discord_functions.php');
 
 // Get form data
-$gamertag = $_POST['gamertag'];
-$platform = $_POST['platform'];
+// $gamertag = $_POST['gamertag'];
+// $platform = $_POST['platform'];
 $email = !empty($_POST['email']) ? $_POST['email'] : NULL;
 $discord_name = $_POST['discord_name'] ?? null;
 
-if (!$discord_name) {
-    die('Discord name is required.');
+// if (!$discord_name) {
+//     die('Discord name is required.');
+// }
+// if (!$platform) {
+//     die('Platform selection is required.');
+// }
+
+
+// // Check if the user is in the Discord server
+// if (!checkDiscordMember($discord_name)) {
+//     die('Discord name not found in the server. Please join the Discord server first.');
+// } else {
+
+// // Proceed with registration if the Discord name exists
+// echo "Discord name verified. Proceeding with registration...";
+// // Continue saving user data to the database
+
+$discordData = isset($_POST['discord_data']) ? json_decode($_POST['discord_data'], true) : null;
+
+if (!$discordData) {
+    die('Discord data is missing. Please try again.');
 }
-if (!$platform) {
-    die('Platform selection is required.');
-}
-
-
-// Check if the user is in the Discord server
-if (!checkDiscordMember($discord_name)) {
-    die('Discord name not found in the server. Please join the Discord server first.');
-} else {
-
-// Proceed with registration if the Discord name exists
-echo "Discord name verified. Proceeding with registration...";
-// Continue saving user data to the database
 
 // Grab game stats?
 $stats = getFortnitePlayerStats($gamertag, $platform);
@@ -53,11 +59,16 @@ if (isset($stats['error'])) {
     //     $gamertag,
     //     $email,
     //     $discord_name,
-    //     $member_data['discord_id'],
-    //     $member_data['discord_username'],
-    //     $member_data['discord_discriminator'],
-    //     $member_data['discord_roles'],
-    //     $member_data['discord_joined_at']
+    //     $discordData['discord_id'],
+    //     $discordData['discord_username'],
+    //     $discordData['discord_discriminator'],
+    //     $discordData['discord_roles'],
+    //     $discordData['discord_joined_at']    
+    // //     $member_data['discord_id'],
+    // //     $member_data['discord_username'],
+    // //     $member_data['discord_discriminator'],
+    // //     $member_data['discord_roles'],
+    // //     $member_data['discord_joined_at']
     // );
 
 // if ($stmt->execute()) {
@@ -94,7 +105,7 @@ if (isset($stats['error'])) {
 // } else {
 //     echo "Error: " . $stmt->error;
 // }
-}
+//}
 
 //  $stmt->close();
 //  $conn->close();
