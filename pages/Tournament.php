@@ -28,7 +28,7 @@
                 <strong>Registration:</strong> Ends November 30<br>
                 <strong>Entry Fee:</strong> $5
             </p>
-            <a href="GirlyPopFortniteTournament.php" class="button">View Details</a>
+            <a href="WinterFortniteTournament.php" class="button">View Details</a>
         </div>
     </section>
 

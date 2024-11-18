@@ -1,27 +1,7 @@
 <?php
 // Include necessary files and functions
-include '../services/get_signup_count.php';
 $config = include('../../private_html/config.php');
-include '../services/fetch_scores.php';
-include '../services/fetch_round_scores.php';
-include '../services/tournament_status.php';
 
-// Fetch the signup count
-$signup_count = getSignupCount();
-
-// Check if the tournament has started
-$tournament_started = isTournamentStarted();
-
-// Fetch scores only if the tournament has started
-$scores = [];
-if ($tournament_started) {
-    $result_scores = fetchScores();
-    if ($result_scores && $result_scores->num_rows > 0) {
-        while ($row = $result_scores->fetch_assoc()) {
-            $scores[] = $row;
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +52,8 @@ if ($tournament_started) {
                 <h2>Registration</h2>
                 <div class="card-content">
                     <p>To register, fill out the form below.</p>
-                    <p>Please ensure your stats are public in Fortnite so we can attempt to balance teams!</p>
+                   <p>Please ensure your stats are public in Fortnite so we can attempt to balance teams!</p>
+
                     <div class="form-wrapper">
                         <form action="../services/register.php" method="POST" enctype="multipart/form-data" class="registration-form">
                             <div class="form-group">
@@ -84,18 +65,11 @@ if ($tournament_started) {
                                 <input type="email" name="email">
                             </div>
                             <div class="form-group">
-                                <label>Role:</label>
-                                <label><input type="radio" name="role" value="master" required> Master</label>
-                                <label><input type="radio" name="role" value="padawan" required> Padawan</label>
+                                <label for="discord_name">Discord Name:</label>
+                                <input type="text" id="discord_name" name="discord_name" required>
                             </div>
-                            <div class="form-group">
-                                <label for="partner">Partner's GamerTag (optional):</label>
-                                <input type="text" name="partner">
-                            </div>
-                            <div class="form-group">
-                                <label for="screenshot">Game Stats Screenshot:</label>
-                                <input type="file" name="screenshot" accept="image/*" required>
-                            </div>
+
+
                             <button type="submit">Register</button>
                         </form>
                     </div>
@@ -104,16 +78,6 @@ if ($tournament_started) {
         </div>
     </section>
 
-    <section id="signup-count">
-        <div class="section-container">
-            <div class="card">
-                <h2>Current Signups for the Tournament</h2>
-                <div class="card-content">
-                    <p><strong><?php echo htmlspecialchars($signup_count); ?></strong> players have signed up!</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section id="prizes">
         <div class="section-container">
