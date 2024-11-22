@@ -222,6 +222,13 @@ ul li {
     background-color: #0056b3;
 }
 
+button[disabled] {
+    background-color: #ccc; /* Gray out the button */
+    color: #666; /* Dim the text color */
+    cursor: not-allowed; /* Show "not allowed" cursor */
+    opacity: 0.6; /* Make it semi-transparent */
+}
+
 /* Footer */
 footer {
     background-color: rgba(40, 44, 52, 0.9);

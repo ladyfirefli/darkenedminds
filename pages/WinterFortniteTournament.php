@@ -63,20 +63,21 @@ $config = include('../../private_html/config.php');
                             </div>
                             <div class="form-group">
                                 <label for="gamertag">GamerTag:</label>
-                                <input type="text" name="gamertag" required>
+                                <input type="text" id="gamertag" name="gamertag" onblur="markGamertagVisited()" required>
+                                <div id="fortnite-info-message"></div> <!-- Display Fortnite stats info here -->
                             </div>
                             <div class="form-group">
                                 <label for="platform">Select Your Platform:</label>
                                 <div>
-                                    <input type="radio" id="pc" name="platform" value="pc" required>
+                                    <input type="radio" id="pc" name="platform" value="pc" onclick="markPlatformVisited()" required>
                                     <label for="pc">PC</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="xbox" name="platform" value="xbox" required>
+                                    <input type="radio" id="xbox" name="platform" value="xbox" onclick="markPlatformVisited()" required>
                                     <label for="xbox">Xbox</label>
                                 </div>
                                 <div>
-                                    <input type="radio" id="psn" name="platform" value="psn" required>
+                                    <input type="radio" id="psn" name="platform" value="psn" onclick="markPlatformVisited()" required>
                                     <label for="psn">PlayStation</label>
                                 </div>
                             </div>
@@ -84,7 +85,7 @@ $config = include('../../private_html/config.php');
                                 <label for="email">Email (optional):</label>
                                 <input type="email" name="email">
                             </div>
-                            <button type="submit">Register</button>
+                            <button type="submit" disabled>Register</button>
                         </form>
                     </div>
                 </div>
