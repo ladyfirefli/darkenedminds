@@ -20,7 +20,6 @@ if (!$gamertag || !$platform) {
 
 // Call the Fortnite API
 $url = $fortnite_config['fortnite_api_url'] . urlencode($gamertag) . "&platform=" . urlencode($platform);
-error_log("Fortnite API URL $url");
 
 $headers = [
     "Authorization: $apiKey",

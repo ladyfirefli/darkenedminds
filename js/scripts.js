@@ -71,7 +71,12 @@ function fetchDiscordInfo() {
                 messageDiv.innerHTML = `<p style="color: green;">Discord name verified: ${data.discord_username}. Joined on: ${joinDate}</p>`;
             } else {
                 discordData = null; // Clear stored data on failure
-                messageDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                // messageDiv.innerHTML = `<p style="color: red;">${data.message}</p>`;
+                let inviteMessage = `<p style="color: red;">${data.message}</p>`;
+                if (data.invite_link) {
+                    inviteMessage += `<p><a href="${data.invite_link}" target="_blank">Click here to join our Discord server</a></p>`;
+                }
+                messageDiv.innerHTML = inviteMessage;
             }
             toggleRegisterButton();
         })

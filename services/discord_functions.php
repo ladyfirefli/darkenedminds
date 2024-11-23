@@ -1,6 +1,7 @@
 <?php
 
-function verifyDiscordName($discord_name) {
+function verifyDiscordName($discord_name)
+{
     if (!$discord_name) {
         return [
             'success' => false,
@@ -21,9 +22,23 @@ function verifyDiscordName($discord_name) {
             'discord_joined_at' => $member_data['discord_joined_at'],
         ];
     } else {
+        // return [
+        //     'success' => false,
+        //     'message' => 'Discord name not found in the server. Please join the Discord server first.',
+        // ];
+        $inviteResponse = createDiscordInvite();
+
+        if ($inviteResponse['success']) {
+            return [
+                'success' => false,
+                'message' => 'Discord name not found in the server. Please join the Discord server first.',
+                'invite_link' => $inviteResponse['invite_link']
+            ];
+        }
+
         return [
             'success' => false,
-            'message' => 'Discord name not found in the server. Please join the Discord server first.',
+            'message' => 'Discord name not found in the Server. Error creating invite:' . $inviteResponse['message']
         ];
     }
 }
@@ -78,5 +93,89 @@ function checkDiscordMember($discord_name)
 
     // If no matching member found
     return false;
+}
+
+function createDiscordInvite()
+{
+    // Load configuration
+    $discord_config = include '../../private_html/discord_config.php';
+    $bot_token = $discord_config['discord_bot_token']; // Bot token
+    $guild_id = $discord_config['discord_guild_id'];   // Guild ID
+
+    // Step 1: Get the system channel
+    $system_channel_id = getGuildSystemChannel($guild_id, $bot_token);
+    if (!$system_channel_id) {
+        error_log("No system channel found for guild ID: $guild_id");
+        return [
+            'success' => false,
+            'message' => 'Unable to find the system channel for the guild.'
+        ];
+    }
+
+    // Step 2: Create an invite for the system channel
+    $inviteUrl = "https://discord.com/api/v10/channels/$system_channel_id/invites";
+    $headers = [
+        "Authorization: Bot $bot_token",
+        "Content-Type: application/json"
+    ];
+    $inviteData = json_encode([
+        'max_age' => 3600, // Invite valid for 1 hour
+        'max_uses' => 1,   // Invite valid for one use
+        'unique' => true
+    ]);
+
+    // Initialize cURL to create the invite
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $inviteUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $inviteData);
+
+    $inviteResponse = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode === 200) {
+        $inviteResponseData = json_decode($inviteResponse, true);
+        return [
+            'success' => true,
+            'invite_link' => "https://discord.gg/" . $inviteResponseData['code']
+        ];
+    }
+
+    // Log error and return failure
+    error_log("Failed to create invite for system channel. HTTP Code: $httpCode, Response: $inviteResponse");
+    return [
+        'success' => false,
+        'message' => 'Unable to create an invite for the system channel.'
+    ];
+}
+
+function getGuildSystemChannel($guild_id, $bot_token)
+{
+    // Fetch the guild's system channel
+    $url = "https://discord.com/api/v10/guilds/$guild_id";
+    $headers = [
+        "Authorization: Bot $bot_token",
+        "Content-Type: application/json"
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($httpCode !== 200) {
+        error_log("Failed to fetch guild system channel. HTTP Code: $httpCode, Response: $response");
+        return null;
+    }
+
+    $guild = json_decode($response, true);
+    return $guild['system_channel_id'] ?? null;
 }
 
