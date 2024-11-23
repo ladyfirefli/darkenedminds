@@ -70,7 +70,7 @@ function checkDiscordMember($discord_name)
 
     // Check for errors
     if ($http_code !== 200) {
-        error_log("Discord API request failed with HTTP Code $http_code. Response: $response");
+        customLog("Discord API request failed with HTTP Code $http_code. Response: $response");
         return false;
     }
 
@@ -105,7 +105,7 @@ function createDiscordInvite()
     // Step 1: Get the system channel
     $system_channel_id = getGuildSystemChannel($guild_id, $bot_token);
     if (!$system_channel_id) {
-        error_log("No system channel found for guild ID: $guild_id");
+        customLog("No system channel found for guild ID: $guild_id");
         return [
             'success' => false,
             'message' => 'Unable to find the system channel for the guild.'
@@ -145,7 +145,7 @@ function createDiscordInvite()
     }
 
     // Log error and return failure
-    error_log("Failed to create invite for system channel. HTTP Code: $httpCode, Response: $inviteResponse");
+    customLog("Failed to create invite for system channel. HTTP Code: $httpCode, Response: $inviteResponse");
     return [
         'success' => false,
         'message' => 'Unable to create an invite for the system channel.'
@@ -171,7 +171,7 @@ function getGuildSystemChannel($guild_id, $bot_token)
     curl_close($ch);
 
     if ($httpCode !== 200) {
-        error_log("Failed to fetch guild system channel. HTTP Code: $httpCode, Response: $response");
+        customLog("Failed to fetch guild system channel. HTTP Code: $httpCode, Response: $response");
         return null;
     }
 
@@ -179,3 +179,11 @@ function getGuildSystemChannel($guild_id, $bot_token)
     return $guild['system_channel_id'] ?? null;
 }
 
+function customLog($message) {
+    // Check the environment variable to enable/disable logging
+    $loggingEnabled = getenv('LOGGING_ENABLED') === 'true';
+    if ($loggingEnabled) {
+        error_log($message);
+    }
+}
+?>
