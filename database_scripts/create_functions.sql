@@ -94,3 +94,50 @@ END$$
 
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS CreateGameStatsIfNotExists;
+
+DELIMITER $$
+
+CREATE PROCEDURE CreateGameStatsIfNotExists (
+    IN p_registration_id INT,
+    IN p_tournament_id INT,
+    IN p_gamertag VARCHAR(255),
+    IN p_kills INT,
+    IN p_damage INT,
+    IN p_matches_played INT,
+    IN p_win_rate DECIMAL(5,2),
+    IN p_kdr DECIMAL(5,2),
+    IN p_additional_data JSON,
+    OUT p_stats_id INT
+)
+BEGIN
+    -- Declare a variable to store the game_id
+    DECLARE v_game_id INT;
+    
+    -- Initialize the output parameter
+    SET p_stats_id = NULL;
+
+    -- Retrieve the game_id from the Tournaments table
+    SELECT game_id INTO v_game_id
+    FROM Tournaments
+    WHERE tournament_id = p_tournament_id;
+
+    -- Check if stats already exist for the given registration ID and tournament
+    SELECT stats_id INTO p_stats_id
+    FROM Game_Stats
+    WHERE registration_id = p_registration_id AND tournament_id = p_tournament_id;
+
+    -- If stats do not exist, insert them
+    IF p_stats_id IS NULL THEN
+        INSERT INTO Game_Stats (
+            registration_id, tournament_id, gamertag, game_id, kills, damage, matches_played, win_rate, kdr, additional_data
+        ) VALUES (
+            p_registration_id, p_tournament_id, p_gamertag, v_game_id, p_kills, p_damage, p_matches_played, p_win_rate, p_kdr, p_additional_data
+        );
+
+        -- Retrieve the newly created stats_id
+        SET p_stats_id = LAST_INSERT_ID();
+    END IF;
+END$$
+
+DELIMITER ;

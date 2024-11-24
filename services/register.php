@@ -29,6 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $gamertag = $fortniteData['gamertag'];
         $platform = $fortniteData['platform'];
         $wins = $fortniteData['stats']['wins'];
+        $matches = $fortniteData['stats']['matches'];
+        if ($matches > 0) {
+            $winRate = ($wins / $matches) * 100;
+        } else {
+            $winRate = 0; // Default to 0 if matches are 0
+        }     
 
         // Call the stored procedure to get or insert the player
         $player_id = getOrInsertPlayer($conn, $gamertag, $email, $discordData, $discord_name);
@@ -42,7 +48,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Call the registration wrapper
                 $registrationId = createRegistration($conn, $player_id, $tournament_id, $partnerGamertag, $additionalData);
             
-                echo "Registration successful! Registration ID: $registrationId";
+                //echo "Registration successful! Registration ID: $registrationId";
+
+                if ($registrationId){
+                    try {
+                        $statsId = createGameStats($conn, $registrationId, $tournament_id, $gamertag, null, null, $matches, $winRate, null, null);
+                        echo "Game stats successfully created or retrieved! Stats ID: $statsId";
+                    } catch (Exception $e) {
+                        echo "Error: " . $e->getMessage();
+                    }
+                }
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
@@ -187,4 +202,35 @@ function createRegistration($conn, $playerId, $tournamentId, $partnerGamertag = 
     return null; // Fallback if something unexpected happens
 }
 
+function createGameStats($conn, $registrationId, $tournamentId, $gamertag, $kills = 0, $damage = 0, $matchesPlayed = 0, $winRate = null, $kdr = null, $additionalData = null) {
+    if (!$conn || $conn->connect_error) {
+        throw new Exception("Database connection error: " . $conn->connect_error);
+    }
+
+    try {
+        // Prepare the stored procedure call
+        $stmt = $conn->prepare("CALL CreateGameStatsIfNotExists(?, ?, ?, ?, ?, ?, ?, ?, ?, @stats_id)");
+        $stmt->bind_param("iisiiidds", $registrationId, $tournamentId, $gamertag, $kills, $damage, $matchesPlayed, $winRate, $kdr, $additionalData);
+
+        // Execute the procedure
+        if ($stmt->execute()) {
+            // Fetch the output parameter
+            $result = $conn->query("SELECT @stats_id AS stats_id");
+            if ($row = $result->fetch_assoc()) {
+                return $row['stats_id'];
+            } else {
+                throw new Exception("Failed to retrieve stats ID.");
+            }
+        } else {
+            throw new Exception("Error executing stored procedure: " . $stmt->error);
+        }
+    } finally {
+        // Clean up
+        if (isset($stmt)) {
+            $stmt->close();
+        }
+    }
+
+    return null; // Fallback if something unexpected happens
+}
 ?>
