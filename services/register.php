@@ -7,127 +7,50 @@ $conn = getTourneyDatabaseConnection();
 require_once('discord_functions.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get form data
-    // $gamertag = $_POST['gamertag'];
-    // $platform = $_POST['platform'];
-    $email = !empty($_POST['email']) ? $_POST['email'] : NULL;
-    $discord_name = $_POST['discord_name'] ?? null;
+    try {
+        // Fetch tournament ID from the form
+        $tournament_id = $_POST['tournament_id'] ?? null;
 
-    // if (!$discord_name) {
-    //     die('Discord name is required.');
-    // }
-    // if (!$platform) {
-    //     die('Platform selection is required.');
-    // }
+        if (!$tournament_id) {
+            die('Tournament selection is required.');
+        }
+        
+        $email = !empty($_POST['email']) ? $_POST['email'] : null;
+        $discord_name = $_POST['discord_name'] ?? null;
 
+        $discordData = isset($_POST['discord_data']) ? json_decode($_POST['discord_data'], true) : null;
+        $fortniteData = isset($_POST['fortnite_data']) ? json_decode($_POST['fortnite_data'], true) : null;
 
-    // // Check if the user is in the Discord server
-    // if (!checkDiscordMember($discord_name)) {
-    //     die('Discord name not found in the server. Please join the Discord server first.');
-    // } else {
+        if (!$discordData || !$fortniteData) {
+            die('Required data is missing. Please verify your Discord and Fortnite details.');
+        }
 
-    // // Proceed with registration if the Discord name exists
-    // echo "Discord name verified. Proceeding with registration...";
-    // // Continue saving user data to the database
+        $gamertag = $fortniteData['gamertag'];
+        $platform = $fortniteData['platform'];
+        $wins = $fortniteData['stats']['wins'];
 
-    $discordData = isset($_POST['discord_data']) ? json_decode($_POST['discord_data'], true) : null;
-    $fortniteData = isset($_POST['fortnite_data']) ? json_decode($_POST['fortnite_data'], true) : null;
+        // Call the stored procedure to get or insert the player
+        $player_id = getOrInsertPlayer($conn, $gamertag, $email, $discordData);
 
-    if (!$discordData || !$fortniteData) {
-        die('Required data is missing. Please verify your Discord and Fortnite details.');
+        echo "Player ID: $player_id\n";
+        // Send confirmation email
+        // sendConfirmationEmail("auto-registration@darkenedminds.com", $gamertag, $email, $discordData['discord_name']);
+
+        exit;
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+    } finally {
+        $conn->close();
     }
-
-    $gamertag = $fortniteData['gamertag'];
-    $platform = $fortniteData['platform'];
-    $wins = $fortniteData['stats']['wins'];
-
-    // // Grab game stats?
-    // $stats = getFortnitePlayerStats($gamertag, $platform);
-
-    // if (isset($stats['error'])) {
-    //     echo $stats['error']; // Display the error message
-    // } else {
-    //     echo "Player Stats for {$stats['data']['account']['name']}:\n";
-    //     echo "Wins: {$stats['data']['stats']['all']['overall']['wins']}\n";
-    //     echo "Kills: {$stats['data']['stats']['all']['overall']['kills']}\n";
-    //     echo "Matches Played: {$stats['data']['stats']['all']['overall']['matches']}\n";
-    // }
-
-    echo "Player Stats for {$fortniteData['data']['account']['name']}:\n";
-    echo "Wins: {$fortniteData['data']['stats']['all']['overall']['wins']}\n";
-    echo "Kills: {$fortniteData['data']['stats']['all']['overall']['kills']}\n";
-    echo "Matches Played: {$fortniteData['data']['stats']['all']['overall']['matches']}\n";
-
-
-    // Insert user data into the Players table
-    // $stmt = $conn->prepare("
-    //     INSERT INTO Players (
-    //         gamertag, email, discord_name, discord_id, discord_username, discord_discriminator, discord_roles, discord_joined_at
-    //     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    // ");
-    // $stmt->bind_param(
-    //     "sssssss",
-    //     $gamertag,
-    //     $email,
-    //     $discord_name,
-    //     $discordData['discord_id'],
-    //     $discordData['discord_username'],
-    //     $discordData['discord_discriminator'],
-    //     $discordData['discord_roles'],
-    //     $discordData['discord_joined_at']    
-    // //     $member_data['discord_id'],
-    // //     $member_data['discord_username'],
-    // //     $member_data['discord_discriminator'],
-    // //     $member_data['discord_roles'],
-    // //     $member_data['discord_joined_at']
-    // );
-
-    // if ($stmt->execute()) {
-    //     // Send confirmation email with attachment
-    //     $to = "auto-registration@darkenedminds.com";
-    //     $subject = "Testing Tournament Registration";
-    //     $message = "
-    //         A new participant has registered for the tournament:
-
-    //         GamerTag: $gamertag
-    //         " . ($email ? "Email: $email\n" : "") . "
-    //         Discord Name: $discord_name
-    //     ";
-
-    //     // Boundary for separating different parts of the email
-    //     $boundary = md5(uniqid(time()));
-
-    //     // Headers for email with attachment
-    //     $headers = "From: no-reply@darkenedminds.com\r\n";
-    //     $headers .= "MIME-Version: 1.0\r\n";
-    //     $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
-
-    //     // Plain text message
-    //     $body = "--$boundary\r\n";
-    //     $body .= "Content-Type: text/plain; charset=UTF-8\r\n\r\n";
-    //     $body .= $message . "\r\n";
-
-    //     // Send the email
-    //     mail($to, $subject, $body, $headers);
-
-    //     // Redirect to confirmation page
-    //     header("Location: ../pages/regresponse.php");
-    //     exit;
-    // } else {
-    //     echo "Error: " . $stmt->error;
-    // }
-    //}
-
-    //  $stmt->close();
-    //  $conn->close();
 }
+
 
 function getFortnitePlayerStats($playerName, $platform)
 {
     $fortnite_config = include '../../private_html/fortnite_config.php';
     $apiKey = $fortnite_config['fortnite_api_key']; // Replace with your Fortnite API key
     $url = $fortnite_config['fortnite_api_url'] . urlencode($playerName) . "&platform=" . urlencode($platform);
-    error_log("Fortnite API URL $url");
+    customLog("Fortnite API URL $url");
     $headers = [
         "Authorization: $apiKey",
         "Content-Type: application/json"
@@ -152,11 +75,75 @@ function getFortnitePlayerStats($playerName, $platform)
     }
 
     if ($httpCode !== 200) {
-        error_log("Fortnite API request failed with HTTP Code $httpCode. Response: $response");
+        customLog("Fortnite API request failed with HTTP Code $httpCode. Response: $response");
         return [
             'error' => 'An error occurred while fetching stats. Please try again later.'
         ];
     }
 
     return json_decode($response, true); // Decode and return the response as an array
+}
+
+function getOrInsertPlayer($conn, $gamertag, $email, $discordData)
+{
+    $stmt = $conn->prepare("CALL GetOrInsertPlayer(?, ?, ?, ?, ?, ?, ?, ?, @player_id)");
+    $stmt->bind_param(
+        "ssssssss",
+        $gamertag,
+        $email,
+        $discordData['discord_name'],
+        $discordData['discord_id'],
+        $discordData['discord_username'],
+        $discordData['discord_discriminator'],
+        $discordData['discord_roles'],
+        $discordData['discord_joined_at']
+    );
+
+    if (!$stmt->execute()) {
+        throw new Exception("Failed to execute stored procedure: " . $stmt->error);
+    }
+
+    // Retrieve the output parameter
+    $result = $conn->query("SELECT @player_id AS player_id");
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    return $row['player_id'];
+}
+
+function sendConfirmationEmail($to, $gamertag, $email, $discord_name)
+{
+    $subject = "Tournament Registration Confirmation";
+    $message = "
+        A new participant has registered for the tournament:
+
+        GamerTag: $gamertag
+        " . ($email ? "Email: $email\n" : "") . "
+        Discord Name: $discord_name
+    ";
+
+    // Boundary for separating different parts of the email
+    $boundary = md5(uniqid(time()));
+
+    // Headers for email with attachment
+    $headers = "From: no-reply@darkenedminds.com\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+
+    // Plain text message
+    $body = "--$boundary\r\n";
+    $body .= "Content-Type: text/plain; charset=UTF-8\r\n\r\n";
+    $body .= $message . "\r\n";
+
+    // Send the email
+    mail($to, $subject, $body, $headers);
+}
+
+function customLog($message)
+{
+    // Check the environment variable to enable/disable logging
+    $loggingEnabled = getenv('LOGGING_ENABLED') === 'true';
+    if ($loggingEnabled) {
+        error_log($message);
+    }
 }

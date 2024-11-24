@@ -2,6 +2,14 @@
 // Include necessary files and functions
 $config = include('../../private_html/config.php');
 
+include '../services/tournament_functions.php';
+include_once '../services/database.php'; 
+
+$conn = getTourneyDatabaseConnection();
+
+// Fetch dropdown data
+$activeTournaments = getActiveTournaments($conn);
+
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +64,40 @@ $config = include('../../private_html/config.php');
 
                     <div class="form-wrapper">
                         <form action="../services/register.php" method="POST" enctype="multipart/form-data" class="registration-form">
+                            <div class="form-group">
+                                <?php if (count($activeTournaments) === 1): ?>
+                                    <!-- Display single tournament as text -->
+                                    <label for="tournament">Tournament:</label>
+                                    <input type="hidden" name="tournament_id" value="<?php echo $activeTournaments[0]['tournament_id']; ?>">
+                                    <p>
+                                        <?php
+                                        echo htmlspecialchars($activeTournaments[0]['tournament_name'])
+                                            . " (Registration ends: "
+                                            . htmlspecialchars($activeTournaments[0]['registration_end_date'])
+                                            . ")";
+                                        ?>
+                                    </p>
+                                <?php elseif (count($activeTournaments) > 1): ?>
+                                    <!-- Display tournaments as a dropdown -->
+                                    <label for="tournament">Select a Tournament:</label>
+                                    <select id="tournament" name="tournament_id" required>
+                                        <option value="">Select a tournament</option>
+                                        <?php foreach ($activeTournaments as $tournament): ?>
+                                            <option value="<?php echo $tournament['tournament_id']; ?>">
+                                                <?php
+                                                echo htmlspecialchars($tournament['tournament_name'])
+                                                    . " (Registration ends: "
+                                                    . htmlspecialchars($tournament['registration_end_date'])
+                                                    . ")";
+                                                ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                <?php else: ?>
+                                    <!-- No active tournaments -->
+                                    <p>No active tournaments available for registration.</p>
+                                <?php endif; ?>
+                            </div>
                             <div class="form-group">
                                 <label for="discord_name">Discord Name:</label>
                                 <input type="text" id="discord_name" name="discord_name" onblur="fetchDiscordInfo()" required>

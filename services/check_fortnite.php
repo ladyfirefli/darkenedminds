@@ -74,3 +74,13 @@ if (isset($data['data'])) {
         'message' => 'Unable to retrieve stats for the provided gamertag and platform.',
     ]);
 }
+
+function customLog($message) {
+    // Check the environment variable to enable/disable logging
+    $loggingEnabled = getenv('LOGGING_ENABLED') === 'true';
+    if ($loggingEnabled) {
+        error_log($message);
+    }
+}
+
+?>
