@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tournament_id = $_POST['tournament_id'] ?? null;
 
         if (!$tournament_id) {
-            die('Tournament selection is required.');
+            throw new Exception('Tournament selection is required.');
         }
 
         $email = !empty($_POST['email']) ? $_POST['email'] : null;
@@ -23,7 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fortniteData = isset($_POST['fortnite_data']) ? json_decode($_POST['fortnite_data'], true) : null;
 
         if (!$discordData || !$fortniteData) {
-            die('Required data is missing. Please verify your Discord and Fortnite details.');
+            customLog($discordData);
+            customLog($fortniteData);
+            throw new Exception('Required data is missing. Please verify your Discord and Fortnite details.');
         }
 
         $gamertag = $fortniteData['gamertag'];
@@ -34,42 +36,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $winRate = ($wins / $matches) * 100;
         } else {
             $winRate = 0; // Default to 0 if matches are 0
-        }     
+        }
 
         // Call the stored procedure to get or insert the player
         $player_id = getOrInsertPlayer($conn, $gamertag, $email, $discordData, $discord_name);
 
         if ($player_id) {
-            try {
-                // Assume $conn is already initialized
-                $partnerGamertag = null; // Optional
-                $additionalData = null; // Optional
-            
-                // Call the registration wrapper
-                $registrationId = createRegistration($conn, $player_id, $tournament_id, $partnerGamertag, $additionalData);
-            
-                if ($registrationId){
-                    try {
-                        $statsId = createGameStats($conn, $registrationId, $tournament_id, $gamertag, null, null, $matches, $winRate, null, null);
-                        //echo "Game stats successfully created or retrieved! Stats ID: $statsId";
-                    } catch (Exception $e) {
-                        echo "Error: " . $e->getMessage();
-                    }
-                }
-            } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
-            }
-        
+            // Assume $conn is already initialized
+            $partnerGamertag = null; // Optional
+            $additionalData = null; // Optional
 
-        // Send confirmation email
-        // sendConfirmationEmail("auto-registration@darkenedminds.com", $gamertag, $email, $discordData['discord_name']);
-}
-        exit;
+            // Register the player and create game stats
+            $registrationId = createRegistration($conn, $player_id, $tournament_id, $partnerGamertag, $additionalData);
+            $statsId = createGameStats($conn, $registrationId, $tournament_id, $gamertag, null, null, $matches, $winRate, null, null);
+
+            // Send confirmation email
+            // sendConfirmationEmail("auto-registration@darkenedminds.com", $gamertag, $email, $discordData['discord_name']);
+        }
+        echo json_encode([
+            'success' => true,
+            'message' => "Registration successful!",
+        ]);
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        echo json_encode([
+            'success' => false,
+            'message' => "Error: " . $e->getMessage(),
+        ]);
     } finally {
         $conn->close();
     }
+    //exit;
 }
 
 
@@ -167,7 +163,8 @@ function sendConfirmationEmail($to, $gamertag, $email, $discord_name)
     mail($to, $subject, $body, $headers);
 }
 
-function createRegistration($conn, $playerId, $tournamentId, $partnerGamertag = null, $additionalData = null) {
+function createRegistration($conn, $playerId, $tournamentId, $partnerGamertag = null, $additionalData = null)
+{
     if (!$conn || $conn->connect_error) {
         throw new Exception("Database connection error: " . $conn->connect_error);
     }
@@ -199,7 +196,8 @@ function createRegistration($conn, $playerId, $tournamentId, $partnerGamertag = 
     return null; // Fallback if something unexpected happens
 }
 
-function createGameStats($conn, $registrationId, $tournamentId, $gamertag, $kills = 0, $damage = 0, $matchesPlayed = 0, $winRate = null, $kdr = null, $additionalData = null) {
+function createGameStats($conn, $registrationId, $tournamentId, $gamertag, $kills = 0, $damage = 0, $matchesPlayed = 0, $winRate = null, $kdr = null, $additionalData = null)
+{
     if (!$conn || $conn->connect_error) {
         throw new Exception("Database connection error: " . $conn->connect_error);
     }
@@ -230,4 +228,3 @@ function createGameStats($conn, $registrationId, $tournamentId, $gamertag, $kill
 
     return null; // Fallback if something unexpected happens
 }
-?>

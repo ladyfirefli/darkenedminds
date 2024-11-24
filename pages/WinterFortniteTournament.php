@@ -61,9 +61,8 @@ $activeTournaments = getActiveTournaments($conn);
                 <div class="card-content">
                     <p>To register, fill out the form below.</p>
                     <p>Please ensure your stats are public in Fortnite so we can attempt to balance teams!</p>
-
                     <div class="form-wrapper">
-                        <form action="../services/register.php" method="POST" enctype="multipart/form-data" class="registration-form">
+                        <form id="registerForm" action="../services/register.php" method="POST" enctype="multipart/form-data" class="registration-form" onsubmit="handleRegistration(event)">
                             <div class="form-group">
                                 <?php if (count($activeTournaments) === 1): ?>
                                     <!-- Display single tournament as text -->
@@ -127,8 +126,10 @@ $activeTournaments = getActiveTournaments($conn);
                                 <label for="email">Email (optional):</label>
                                 <input type="email" name="email">
                             </div>
-                            <button type="submit" disabled>Register</button>
+                            <button id="registerButton" type="submit" disabled>Register</button>
                         </form>
+                        <div id="registrationMessage"></div> <!-- Placeholder for the message -->
+                        </div>
                     </div>
                 </div>
             </div>

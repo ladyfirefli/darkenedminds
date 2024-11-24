@@ -242,3 +242,51 @@ function toggleRegisterButton() {
         registerButton.disabled = true; // Disable the button
     }
 }
+
+async function handleRegistration(event) {
+    event.preventDefault(); // Prevent the form from refreshing the page
+
+    const form = document.getElementById('registerForm');
+    const messageDiv = document.getElementById('registrationMessage');
+    const registerButton = document.getElementById('registerButton');
+
+    // Reset the message and button state
+    messageDiv.innerHTML = '';
+    registerButton.disabled = true;
+
+    // Create a FormData object to send the form data via AJAX
+    const formData = new FormData(form);
+
+    // Add discord_data and fortnite_data to the FormData object
+    if (discordData) {
+        formData.append('discord_data', JSON.stringify(discordData));
+    }
+    if (fortniteData) {
+        formData.append('fortnite_data', JSON.stringify(fortniteData));
+    }
+
+    try {
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: formData,
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Show success message
+            messageDiv.innerHTML = `<p style="color: green;">${result.message}</p>`;
+        } else {
+            console.log("Response from register.php:", result);
+
+            // Show error message and re-enable the button
+            messageDiv.innerHTML = `<p style="color: red;">${result.message}</p>`;
+            registerButton.disabled = false;
+        }
+    } catch (error) {
+        // Handle fetch errors
+        console.error('Error:', error);
+        messageDiv.innerHTML = `<p style="color: red;">An error occurred during registration. Please try again.</p>`;
+        registerButton.disabled = false;
+    }
+}
