@@ -95,6 +95,7 @@ function checkDiscordMember($discord_name)
     // If no matching member found
     return false;
 }
+
 function formatDiscordJoinedAt($datetime) {
     $date = new DateTime($datetime); // Parse the original string
     return $date->format('Y-m-d H:i:s'); // Format as MySQL-compatible DATETIME
