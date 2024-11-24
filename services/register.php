@@ -48,12 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Call the registration wrapper
                 $registrationId = createRegistration($conn, $player_id, $tournament_id, $partnerGamertag, $additionalData);
             
-                //echo "Registration successful! Registration ID: $registrationId";
-
                 if ($registrationId){
                     try {
                         $statsId = createGameStats($conn, $registrationId, $tournament_id, $gamertag, null, null, $matches, $winRate, null, null);
-                        echo "Game stats successfully created or retrieved! Stats ID: $statsId";
+                        //echo "Game stats successfully created or retrieved! Stats ID: $statsId";
                     } catch (Exception $e) {
                         echo "Error: " . $e->getMessage();
                     }
@@ -62,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo "Error: " . $e->getMessage();
             }
         
-        //echo "Player ID: $player_id\n";
 
         // Send confirmation email
         // sendConfirmationEmail("auto-registration@darkenedminds.com", $gamertag, $email, $discordData['discord_name']);
