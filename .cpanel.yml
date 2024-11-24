@@ -1,11 +1,11 @@
 ---
 env:
   # this is production
-  # DB_USER: "darkened_admin"
-  # DB_PASSWORD: "]{M_Bu2HjA4t"
+  DB_USER: "darkened_admin"
+  DB_PASSWORD: "]{M_Bu2HjA4t"
   # this is test on local machine
-  DB_USER: "root"
-  DB_PASSWORD: "root"
+  # DB_USER: "root"
+  # DB_PASSWORD: "root"
   DB_HOST: "localhost"
   DB_NAME: "Darkened_Minds_Tournaments"
 
