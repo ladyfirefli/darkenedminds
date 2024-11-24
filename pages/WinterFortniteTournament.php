@@ -3,7 +3,7 @@
 $config = include('../../private_html/config.php');
 
 include '../services/tournament_functions.php';
-include_once '../services/database.php'; 
+include_once '../services/database.php';
 
 $conn = getTourneyDatabaseConnection();
 
@@ -59,6 +59,7 @@ $activeTournaments = getActiveTournaments($conn);
             <div class="card">
                 <h2>Registration</h2>
                 <div class="card-content">
+                    <p>Entry fee per person will be $5.</p>
                     <p>To register, fill out the form below.</p>
                     <p>Please ensure your stats are public in Fortnite so we can attempt to balance teams!</p>
                     <div class="form-wrapper">
@@ -128,11 +129,11 @@ $activeTournaments = getActiveTournaments($conn);
                             </div>
                             <button id="registerButton" type="submit" disabled>Register</button>
                         </form>
-                        </div>
-                        <div id="registrationMessage"></div> <!-- Placeholder for the message -->
                     </div>
+                    <div id="registrationMessage"></div> <!-- Placeholder for the message -->
                 </div>
             </div>
+        </div>
         </div>
     </section>
 
@@ -176,13 +177,8 @@ $activeTournaments = getActiveTournaments($conn);
     <section id="Rules">
         <div class="section-container">
             <div class="card">
-                <h2>Rules</h2>
+                <h2>Tournament Structure</h2>
                 <div class="card-content">
-                    <h3>Entry Fee</h3>
-                    <p>Entry fee per person will be $2.</p>
-                    <h3>Join us!</h3>
-                    <p><a href="https://discord.gg/FqqZ6XTNDW">Join our Discord</a></p>
-                    <h2>Tournament Structure</h2>
                     <ul>
                         <li><strong>Format:</strong>
                             <ul>
@@ -237,8 +233,8 @@ $activeTournaments = getActiveTournaments($conn);
                             </tr>
                         </tbody>
                     </table>
-                    <hr>
-                    <h2>Winter-Themed Challenges (Creative Bonuses)</h2>
+                    <p></p>
+                    <h3>Winter-Themed Challenges (Creative Bonuses)</h3>
                     <ul>
                         <li><strong>Snowy POI Drop (10 Points):</strong> Teams score points for landing at a snowy or winter-themed POI. (Verify through streaming or honest reporting.)</li>
                         <li><strong>Icy Arsenal Bonus (15 Points):</strong> Use snowy-themed weapons or items for an elimination (e.g., Snowball Launcher, Chiller Grenades).</li>

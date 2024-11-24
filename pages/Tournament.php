@@ -40,11 +40,6 @@
                 <p>Highlights and stats from our October showdown.</p>
                 <a href="past_tournaments.php?tournament_id=1" class="button">View Results</a>
             </div>
-            <div class="tournament-card">
-                <h3><a href="past_tournaments.php?tournament_id=2">Trios Frenzy - September 2024</a></h3>
-                <p>Relive the excitement of our trios battle!</p>
-                <a href="past_tournaments.php?tournament_id=2" class="button">View Results</a>
-            </div>
             <!-- Add more past tournaments as needed -->
         </div>
     </section>
