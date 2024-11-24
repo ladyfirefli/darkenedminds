@@ -1,4 +1,5 @@
 <?php
+require_once 'utils.php';
 
 function verifyDiscordName($discord_name)
 {
@@ -179,11 +180,5 @@ function getGuildSystemChannel($guild_id, $bot_token)
     return $guild['system_channel_id'] ?? null;
 }
 
-function customLog($message) {
-    // Check the environment variable to enable/disable logging
-    $loggingEnabled = getenv('LOGGING_ENABLED') === 'true';
-    if ($loggingEnabled) {
-        error_log($message);
-    }
-}
+
 ?>

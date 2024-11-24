@@ -5,6 +5,7 @@ include_once 'database.php';
 $conn = getTourneyDatabaseConnection();
 
 require_once('discord_functions.php');
+require_once 'utils.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -14,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$tournament_id) {
             die('Tournament selection is required.');
         }
-        
+
         $email = !empty($_POST['email']) ? $_POST['email'] : null;
         $discord_name = $_POST['discord_name'] ?? null;
 
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $wins = $fortniteData['stats']['wins'];
 
         // Call the stored procedure to get or insert the player
-        $player_id = getOrInsertPlayer($conn, $gamertag, $email, $discordData);
+        $player_id = getOrInsertPlayer($conn, $gamertag, $email, $discordData, $discord_name);
 
         echo "Player ID: $player_id\n";
         // Send confirmation email
@@ -84,14 +85,14 @@ function getFortnitePlayerStats($playerName, $platform)
     return json_decode($response, true); // Decode and return the response as an array
 }
 
-function getOrInsertPlayer($conn, $gamertag, $email, $discordData)
+function getOrInsertPlayer($conn, $gamertag, $email, $discordData, $discord_name)
 {
     $stmt = $conn->prepare("CALL GetOrInsertPlayer(?, ?, ?, ?, ?, ?, ?, ?, @player_id)");
     $stmt->bind_param(
         "ssssssss",
         $gamertag,
         $email,
-        $discordData['discord_name'],
+        $discord_name,
         $discordData['discord_id'],
         $discordData['discord_username'],
         $discordData['discord_discriminator'],
@@ -139,11 +140,4 @@ function sendConfirmationEmail($to, $gamertag, $email, $discord_name)
     mail($to, $subject, $body, $headers);
 }
 
-function customLog($message)
-{
-    // Check the environment variable to enable/disable logging
-    $loggingEnabled = getenv('LOGGING_ENABLED') === 'true';
-    if ($loggingEnabled) {
-        error_log($message);
-    }
-}
+?>
