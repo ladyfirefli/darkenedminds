@@ -154,15 +154,15 @@ $activeTournaments = getActiveTournaments($conn);
                         </li>
                         <li>
                             <div class="prize-image">
-                                <img src="../assets/hoodie.png" alt="Custom Hoodie" class="prize-img">
+                                <img src="../assets/WinterClassicT.png" alt="Custom T-Shirt" class="prize-img">
                             </div>
                             <div class="prize-content">
-                                <strong>2nd Place:</strong> Custom Hoodie
+                                <strong>2nd Place:</strong> Custom T-Shirt
                             </div>
                         </li>
                         <li>
                             <div class="prize-image">
-                                <img src="../assets/sticker.png" alt="Stickers" class="prize-img">
+                                <img src="../assets/WinterClassicSticker.png" alt="Stickers" class="prize-img">
                             </div>
                             <div class="prize-content">
                                 <strong>3rd Place:</strong> Stickers
