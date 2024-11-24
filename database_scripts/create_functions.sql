@@ -56,3 +56,41 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS CreateRegistrationIfNotExists;
+
+DELIMITER $$
+
+CREATE PROCEDURE CreateRegistrationIfNotExists (
+    IN p_player_id INT,
+    IN p_tournament_id INT,
+    IN p_partner_gamertag VARCHAR(255),
+    IN p_additional_data VARCHAR(255),
+    OUT p_registration_id INT
+)
+BEGIN
+    -- Initialize the output parameter
+    SET p_registration_id = NULL;
+
+    -- Check if the player is already registered for the tournament
+    SELECT registration_id INTO p_registration_id
+    FROM Registrations
+    WHERE player_id = p_player_id AND tournament_id = p_tournament_id;
+
+    -- If the player is not registered, insert the registration
+    IF p_registration_id IS NULL THEN
+        INSERT INTO Registrations (
+            player_id, tournament_id, partner_gamertag, fee_paid, additional_data
+        ) VALUES (
+            p_player_id, p_tournament_id, p_partner_gamertag, 0, p_additional_data
+        );
+
+        -- Get the newly created registration_id
+        SET p_registration_id = LAST_INSERT_ID();
+    END IF;
+
+    -- Return the registration_id
+END$$
+
+DELIMITER ;
+

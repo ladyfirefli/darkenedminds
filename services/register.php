@@ -33,10 +33,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Call the stored procedure to get or insert the player
         $player_id = getOrInsertPlayer($conn, $gamertag, $email, $discordData, $discord_name);
 
-        echo "Player ID: $player_id\n";
+        if ($player_id) {
+            try {
+                // Assume $conn is already initialized
+                $partnerGamertag = null; // Optional
+                $additionalData = null; // Optional
+            
+                // Call the registration wrapper
+                $registrationId = createRegistration($conn, $player_id, $tournament_id, $partnerGamertag, $additionalData);
+            
+                echo "Registration successful! Registration ID: $registrationId";
+            } catch (Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        
+        //echo "Player ID: $player_id\n";
+
         // Send confirmation email
         // sendConfirmationEmail("auto-registration@darkenedminds.com", $gamertag, $email, $discordData['discord_name']);
-
+}
         exit;
     } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
@@ -138,6 +153,38 @@ function sendConfirmationEmail($to, $gamertag, $email, $discord_name)
 
     // Send the email
     mail($to, $subject, $body, $headers);
+}
+
+function createRegistration($conn, $playerId, $tournamentId, $partnerGamertag = null, $additionalData = null) {
+    if (!$conn || $conn->connect_error) {
+        throw new Exception("Database connection error: " . $conn->connect_error);
+    }
+
+    try {
+        // Prepare the SQL to call the stored procedure
+        $stmt = $conn->prepare("CALL CreateRegistrationIfNotExists(?, ?, ?, ?, @registration_id)");
+        $stmt->bind_param("iiss", $playerId, $tournamentId, $partnerGamertag, $additionalData);
+
+        // Execute the procedure
+        if ($stmt->execute()) {
+            // Fetch the OUT parameter
+            $result = $conn->query("SELECT @registration_id AS registration_id");
+            if ($row = $result->fetch_assoc()) {
+                return $row['registration_id'];
+            } else {
+                throw new Exception("Failed to retrieve registration ID.");
+            }
+        } else {
+            throw new Exception("Error executing stored procedure: " . $stmt->error);
+        }
+    } finally {
+        // Clean up
+        if (isset($stmt)) {
+            $stmt->close();
+        }
+    }
+
+    return null; // Fallback if something unexpected happens
 }
 
 ?>
