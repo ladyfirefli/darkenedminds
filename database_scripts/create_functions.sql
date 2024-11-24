@@ -1,4 +1,4 @@
-USE Darkened_Minds_Tournaments;
+USE darkened_Minds_Tournaments;
 
 DROP PROCEDURE IF EXISTS GetOrInsertPlayer;
 

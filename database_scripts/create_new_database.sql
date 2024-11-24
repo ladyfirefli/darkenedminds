@@ -1,10 +1,11 @@
--- create_new_database.sql
+-- -- create_new_database.sql
+-- have to create through cpanel manage database
 
-CREATE DATABASE Darkened_Minds_Tournaments
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_0900_ai_ci;
+-- CREATE DATABASE darkened_Minds_Tournaments
+-- CHARACTER SET utf8mb4
+-- COLLATE utf8mb4_0900_ai_ci;
 
-USE Darkened_Minds_Tournaments;
+USE darkened_Minds_Tournaments;
 
 CREATE TABLE `Games` (
   `game_id` INT AUTO_INCREMENT PRIMARY KEY,
