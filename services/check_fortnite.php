@@ -45,6 +45,14 @@ if ($httpCode === 403) {
     exit;
 }
 
+if ($httpCode === 404) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'The player was not found.',
+    ]);
+    exit;
+}
+
 if ($httpCode !== 200) {
     echo json_encode([
         'success' => false,

@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $statsId = createGameStats($conn, $registrationId, $tournament_id, $gamertag, null, null, $matches, $winRate, null, null);
 
             // Send confirmation email
-            // sendConfirmationEmail("auto-registration@darkenedminds.com", $gamertag, $email, $discordData['discord_name']);
+            sendConfirmationEmail("auto-registration@darkenedminds.com", $gamertag, $email, $discord_name);
         }
         echo json_encode([
             'success' => true,
@@ -137,7 +137,7 @@ function getOrInsertPlayer($conn, $gamertag, $email, $discordData, $discord_name
 
 function sendConfirmationEmail($to, $gamertag, $email, $discord_name)
 {
-    $subject = "Tournament Registration Confirmation";
+    $subject = " Test Tournament Registration Confirmation";
     $message = "
         A new participant has registered for the tournament:
 

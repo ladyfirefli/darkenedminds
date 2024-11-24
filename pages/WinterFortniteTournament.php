@@ -128,8 +128,8 @@ $activeTournaments = getActiveTournaments($conn);
                             </div>
                             <button id="registerButton" type="submit" disabled>Register</button>
                         </form>
-                        <div id="registrationMessage"></div> <!-- Placeholder for the message -->
                         </div>
+                        <div id="registrationMessage"></div> <!-- Placeholder for the message -->
                     </div>
                 </div>
             </div>

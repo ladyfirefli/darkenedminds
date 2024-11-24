@@ -171,6 +171,10 @@ function markGamertagVisited() {
         } else {
             const messageDiv = document.getElementById('fortnite-info-message');
             messageDiv.innerHTML = ''; // Clear previous messages
+
+            const regMessageDiv = document.getElementById('registrationMessage');
+            regMessageDiv.innerHTML = ''; // Clear previous messages
+
             toggleRegisterButton();
         }
         lastGamertag = gamertagField; // Update the last fetched gamertag
@@ -200,6 +204,10 @@ function attemptFortniteFetch() {
     const messageDiv = document.getElementById('fortnite-info-message');
 
     messageDiv.innerHTML = ''; // Clear previous messages
+
+    const regMessageDiv = document.getElementById('registrationMessage');
+    regMessageDiv.innerHTML = ''; // Clear previous messages
+
 
     // Don't proceed if gamertag or platform is missing or hasn't changed
     if (!gamertag || !platform || (gamertag === lastGamertag && platform === lastPlatform)) {
