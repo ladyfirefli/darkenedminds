@@ -284,6 +284,11 @@ async function handleRegistration(event) {
         if (result.success) {
             // Show success message
             messageDiv.innerHTML = `<p style="color: green;">${result.message}</p>`;
+
+            // Display PayPal link
+            if (result.paypal_link) {
+                messageDiv.innerHTML += `<p><a href="${result.paypal_link}" target="_blank" style="color: blue;">Click here to pay the registration fee</a></p>`;
+            }
         } else {
             console.log("Response from register.php:", result);
 

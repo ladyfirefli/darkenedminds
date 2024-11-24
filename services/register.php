@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Register the player and create game stats
             $registrationId = createRegistration($conn, $player_id, $tournament_id, $partnerGamertag, $additionalData);
             $statsId = createGameStats($conn, $registrationId, $tournament_id, $gamertag, null, null, $matches, $winRate, null, null);
+            $paypalLink = generatePersonalPayPalLink($discord_name,5);
 
             // Send confirmation email
             sendConfirmationEmail("auto-registration@darkenedminds.com", $gamertag, $email, $discord_name);
@@ -56,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode([
             'success' => true,
             'message' => "Registration successful!",
+            'paypal_link' => $paypalLink, // Include the PayPal link in the response     
         ]);
     } catch (Exception $e) {
         echo json_encode([
@@ -227,4 +229,11 @@ function createGameStats($conn, $registrationId, $tournamentId, $gamertag, $kill
     }
 
     return null; // Fallback if something unexpected happens
+}
+function generatePersonalPayPalLink($discord_name, $amount) {
+    $baseUrl = "https://www.paypal.me/DarkenedMinds/$amount";
+    if ($discord_name) {
+        $baseUrl .= "?note=" . urlencode($discord_name);
+    }
+    return $baseUrl;
 }
