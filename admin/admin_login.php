@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Verify the entered password against the hashed password
     if (password_verify($entered_password, $config['admin_hashed_password'])) {
         $_SESSION['logged_in'] = true;
-        header("Location: admin_dashboard.php");
+        header("Location: admin_panels.php");
         exit;
     } else {
         $error = "Incorrect password. Please try again.";
@@ -29,14 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav>
-        <ul>
-            <li><img src="../assets/DMlogowebsite.png" alt="Logo" class="logo-img"></li>
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../pages/Tournament.php">Tournament</a></li>
-            <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
-        </ul>
-    </nav>
+    <?php include 'admin_navbar.php'; ?> <!-- Include your navigation bar -->
+
 
     <header>
         <div class="header-content">

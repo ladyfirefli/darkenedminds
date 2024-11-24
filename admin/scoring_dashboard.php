@@ -82,17 +82,9 @@ $stmt->close();
 </header>
 
 <body>
-    <nav>
-        <ul>
-            <li><img src="../assets/DMlogowebsite.png" alt="Logo" class="logo-img"></li>
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../pages/Tournament.php">Tournament</a></li>
-            <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
-            <li><a href="admin_dashboard.php">Admin Dashboard</a></li>
-            <li><a href="scoring_dashboard.php" class="current-page">Scoring</a></li>
-            <li><a href="../services/logout.php">Logout</a></li>
-        </ul>
-    </nav>
+    <!-- Navigation Bar -->
+    <?php include 'admin_navbar.php'; ?> <!-- Include your navigation bar -->
+
     <section id="scoring">
         <h1>Scoring Dashboard</h1>
 

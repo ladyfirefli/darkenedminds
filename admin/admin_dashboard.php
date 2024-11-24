@@ -48,17 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['delete_team_id'])) {
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li><img src="../assets/DMlogowebsite.png" alt="Logo" class="logo-img"></li>
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../pages/Tournament.php">Tournament</a></li>
-            <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
-            <li><a href="admin_dashboard.php" class="current-page">Admin Dashboard</a></li>
-            <li><a href="scoring_dashboard.php">Scoring</a></li>
-            <li><a href="../services/logout.php">Logout</a></li>
-        </ul>
-    </nav>
+    <!-- Navigation Bar -->
+    <?php include 'admin_navbar.php'; ?> <!-- Include your navigation bar -->
 
     <header>
         <div class="header-content">
