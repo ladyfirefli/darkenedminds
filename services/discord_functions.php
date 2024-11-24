@@ -87,13 +87,17 @@ function checkDiscordMember($discord_name)
                 'discord_username' => $member['user']['username'] ?? null,
                 'discord_discriminator' => $member['user']['discriminator'] ?? null,
                 'discord_roles' => isset($member['roles']) ? json_encode($member['roles']) : null,
-                'discord_joined_at' => $member['joined_at'] ?? null
+                'discord_joined_at' => formatDiscordJoinedAt($member['joined_at']) ?? null
             ];
         }
     }
 
     // If no matching member found
     return false;
+}
+function formatDiscordJoinedAt($datetime) {
+    $date = new DateTime($datetime); // Parse the original string
+    return $date->format('Y-m-d H:i:s'); // Format as MySQL-compatible DATETIME
 }
 
 function createDiscordInvite()
