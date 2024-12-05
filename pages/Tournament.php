@@ -24,8 +24,8 @@
             <h3><a href="WinterFortniteTournament.php">Winter Classic Fortnite Tournament</a></h3>
             <p>
                 Ready to prove your skills? Join our current Fortnite tournament and battle for glory.<br>
-                <strong>Date:</strong> December 1st 2024<br>
-                <strong>Registration:</strong> Ends November 30<br>
+                <strong>Date:</strong> February 2nd 2025<br>
+                <strong>Registration:</strong> Ends February 1st<br>
                 <strong>Entry Fee:</strong> $5
             </p>
             <a href="WinterFortniteTournament.php" class="button">View Details</a>
