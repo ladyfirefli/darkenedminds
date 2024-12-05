@@ -1,4 +1,5 @@
 <?php
+require_once 'utils.php';
 header('Content-Type: application/json');
 
 $fortnite_config = include '../../private_html/fortnite_config.php';
@@ -20,7 +21,7 @@ if (!$gamertag || !$platform) {
 
 // Call the Fortnite API
 $url = $fortnite_config['fortnite_api_url'] . urlencode($gamertag) . "&platform=" . urlencode($platform);
-
+customLog($url);
 $headers = [
     "Authorization: $apiKey",
     "Content-Type: application/json"

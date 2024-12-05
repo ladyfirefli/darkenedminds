@@ -12,13 +12,14 @@
 
 <body>
     <!-- Navigation Bar -->
-    <nav>
+    <nav id="main-navbar">
+        <button class="toggle-button" onclick="toggleNavbar()">☰</button>
         <ul>
             <li>
                 <img src="assets/DMlogowebsite.png" alt="Logo" class="logo-img">
             </li>
             <li><a href="index.html" class="current-page">Home</a></li>
-            ß<li class="dropdown">
+            <li class="dropdown">
                 <a href="pages/Tournament.php">Tournament</a>
                 <ul class="submenu">
                     <li><a href="pages/WinterFortniteTournament.php">Current Tournament</a></li>
@@ -156,4 +157,10 @@
     </footer>
 </body>
 
+<script>
+    function toggleNavbar() {
+        const navbar = document.querySelector('#main-navbar ul');
+        navbar.classList.toggle('active');
+    }
+</script>
 </html>

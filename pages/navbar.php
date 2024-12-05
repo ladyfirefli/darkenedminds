@@ -8,6 +8,7 @@ echo '<link rel="stylesheet" href="../css/navbar.css">';
 ?>
 
 <nav id="main-navbar">
+<button class="toggle-button" onclick="toggleNavbar()">☰</button>
     <ul>
         <li>
             <img src="../assets/DMlogowebsite.png" alt="Logo" class="logo-img">
@@ -23,3 +24,9 @@ echo '<link rel="stylesheet" href="../css/navbar.css">';
         <li><a href="https://shop.darkenedminds.com">Merch Store</a></li>
     </ul>
 </nav>
+<script>
+    function toggleNavbar() {
+        const navbar = document.querySelector('#main-navbar ul');
+        navbar.classList.toggle('active');
+    }
+</script>
