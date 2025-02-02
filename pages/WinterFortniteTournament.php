@@ -38,7 +38,7 @@ $activeTournaments = getActiveTournaments($conn);
                 <h2>About the Tournament</h2>
                 <div class="card-content">
                     <p>
-                        Gear up for the ultimate frosty showdown! Join us for an action-packed Duos Zero Build Tournament, randomely assigned duos team up to outwit and outlast the competition. Over the course of 4 thrilling rounds, participants will earn points for eliminations, placements, and teamwork, with special bonuses for completing winter-themed challenges like snowy POI landings, icy weapon eliminations, and creative builds.
+                        Gear up for the ultimate frosty showdown! Join us for an action-packed Duos Zero Build Tournament, randomely assigned duos team up to outwit and outlast the competition. Over the course of 4 thrilling rounds, participants will earn points for eliminations, accuracy, damage, headshots, and assists
                     </p>
                     <p>
                         Prizes await the top teams, including cash rewards, a tournament themed shirt, and exclusive tournament themed stickers! Whether you're a seasoned Fortnite veteran or just getting started, this tournament is designed to celebrate creativity, skill, and teamwork.
@@ -188,8 +188,12 @@ $activeTournaments = getActiveTournaments($conn);
                         </li>
                         <li><strong>Teams:</strong>
                             <ul>
-                                <li>Random pairings or pre-registered duos</li>
-                                <li>Option to include a “mentor and novice” pairing for inclusivity</li>
+                                <li>Random pairings</li>
+                            </ul>
+                        </li>
+                        <li><strong>Score submission:</strong>
+                            <ul>
+                                <li>Match Summary Screenshot posted to  <strong>#matchsummary</strong> channel under "Tournaments". </li>
                             </ul>
                         </li>
                     </ul>
@@ -199,53 +203,102 @@ $activeTournaments = getActiveTournaments($conn);
     </section>
 
     <section id="scoring">
-        <div class="section-container">
-            <div class="card">
-                <h2>Scoring System</h2>
-                <div class="card-content">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>Points</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Duo Elimination</td>
-                                <td>10 points per team elimination</td>
-                            </tr>
-                            <tr>
-                                <td>Placement (per match)</td>
-                                <td>1st: 50 pts, 2nd: 40 pts, 3rd: 30 pts, etc.</td>
-                            </tr>
-                            <tr>
-                                <td>Winter-Themed Challenges</td>
-                                <td>See below for specific bonuses</td>
-                            </tr>
-                            <tr>
-                                <td>Revive Teammate Bonus</td>
-                                <td>5 points per revive</td>
-                            </tr>
-                            <tr>
-                                <td>Assist Bonus</td>
-                                <td>5 points per confirmed assist</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <p></p>
-                    <h3>Winter-Themed Challenges (Creative Bonuses)</h3>
-                    <ul>
-                        <li><strong>Snowy POI Drop (10 Points):</strong> Teams score points for landing at a snowy or winter-themed POI. (Verify through streaming or honest reporting.)</li>
-                        <li><strong>Icy Arsenal Bonus (15 Points):</strong> Use snowy-themed weapons or items for an elimination (e.g., Snowball Launcher, Chiller Grenades).</li>
-                        <li><strong>Creative Builds (10 Points):</strong> Even in Zero Build mode, players can earn points for creative use of cover (e.g., hiding behind vehicles, stacking items). Bonus if it resembles a winter shape like an igloo.</li>
-                        <li><strong>Festive Gesture Bonus (5 Points):</strong> Perform a festive emote after eliminating a team or reviving your teammate.</li>
-                        <li><strong>Storm Survival Bonus (20 Points):</strong> Survive at least 3 storm phases without leaving a snowy area.</li>
-                    </ul>
-                </div>
+    <div class="section-container">
+        <div class="card">
+            <h2>Tournament Rules & Scoring System</h2>
+            <div class="card-content">
+                <p>Each player of the team MUST post a picture or screenshot ONLY (we will not accept text) of their match summary at the end of each round to ensure all points are accounted for. Your username must be visible in the screenshot. All screenshots should be posted in the <strong>#matchsummary</strong> channel under "Tournaments". </p>
+                <p> <strong>IF YOU DO NOT SEND A SCREENSHOT OF YOUR MATCH SUMMARY BEFORE YOU EXIT, WE WILL HAVE TO GIVE YOU ZERO POINTS AT THE END OF THAT ROUND.</strong></p>
+                <h3>Scoring Per Round</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Eliminations</td>
+                            <td>2 points each</td>
+                        </tr>
+                        <tr>
+                            <td>Assists</td>
+                            <td>1 point each</td>
+                        </tr>
+                        <tr>
+                            <td>Accuracy 0%-10%</td>
+                            <td>0 points</td>
+                        </tr>
+                        <tr>
+                            <td>Accuracy 11%-30%</td>
+                            <td>1 point</td>
+                        </tr>
+                        <tr>
+                            <td>Accuracy 31%-60%</td>
+                            <td>2 points</td>
+                        </tr>
+                        <tr>
+                            <td>Accuracy 61%-100%</td>
+                            <td>3 points</td>
+                        </tr>
+                        <tr>
+                            <td>Damage to Players 0-500</td>
+                            <td>1 point</td>
+                        </tr>
+                        <tr>
+                            <td>Damage to Players 501-1000</td>
+                            <td>2 points</td>
+                        </tr>
+                        <tr>
+                            <td>Damage to Players 1001-1500</td>
+                            <td>3 points</td>
+                        </tr>
+                        <tr>
+                            <td>Damage to Players 1501-2000</td>
+                            <td>4 points</td>
+                        </tr>
+                        <tr>
+                            <td>Damage to Players 2001+</td>
+                            <td>5 points</td>
+                        </tr>
+                        <tr>
+                            <td>Headshots 1-3</td>
+                            <td>1 point</td>
+                        </tr>
+                        <tr>
+                            <td>Headshots 4-6</td>
+                            <td>2 points</td>
+                        </tr>
+                        <tr>
+                            <td>Headshots 7-9</td>
+                            <td>3 points</td>
+                        </tr>
+                        <tr>
+                            <td>Headshots 10+</td>
+                            <td>4 points</td>
+                        </tr>
+                        <tr>
+                            <td>1st Place</td>
+                            <td>5 points</td>
+                        </tr>
+                        <tr>
+                            <td>2nd Place</td>
+                            <td>3 points</td>
+                        </tr>
+                        <tr>
+                            <td>3rd Place</td>
+                            <td>2 points</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Tournament Start Details</h3>
+                <p>The tournament start time will be <strong>12 CST, 1 EST, 6 UTC</strong>. The first 30 minutes will be registration. It will take some time to get everyone in the lobby, so please be patient with us!</p>
+                <p>Please join the <strong>"All Participants - Start"</strong> voice channel under Tournaments in Darkened Minds at start time. We will then give everyone instructions on how to join the custom game. After, we will assign you and your teammate a voice channel number under the tournament section of Darkened Minds to use during the tournament.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
 
 
