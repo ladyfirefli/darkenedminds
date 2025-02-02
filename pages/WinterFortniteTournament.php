@@ -250,7 +250,7 @@ $activeTournaments = getActiveTournaments($conn);
 
 
     <footer>
-        <p>Sponsored by Darkened Minds Discord Admins</p>
+    <p>Sponsored by <a href="../admin/admin_panels.php" target="_blank" style="color: inherit; text-decoration: none;">Darkened Minds Discord Admins</a></p>
     </footer>
     <script src="../js/scripts.js"></script>
 </body>
