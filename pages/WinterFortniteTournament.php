@@ -46,9 +46,6 @@ $activeTournaments = getActiveTournaments($conn);
                     <p>
                         So join us in this epic winter battle! Remember, stats must be public, and all are welcome to compete for glory in the snow. Sign up now and don’t miss the chance to show off your Fortnite skills in the Winter Classic!
                     </p>
-                    <p>
-                        Winter-themed activities will score extra points!
-                    </p>
                 </div>
             </div>
         </div>
