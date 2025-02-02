@@ -15,6 +15,15 @@ $conn = getTourneyDatabaseConnection();
 $games = getDropdownData($conn, 'Games');
 $tournamentTypes = getDropdownData($conn, 'Tournament_Types');
 
+// Fetch active tournaments for dropdown
+$activeTournaments = getActiveTournaments($conn);
+
+// Check if a tournament is selected from the dropdown
+$tournament_id = isset($_GET['tournament_id']) ? intval($_GET['tournament_id']) : null;
+
+// Fetch registrations for the selected tournament
+$registrations = fetchRegisteredPlayers($conn, $tournament_id);
+
 $conn->close();
 ?>
 
@@ -30,14 +39,60 @@ $conn->close();
 </head>
 
 <body>
-        <!-- Navigation Bar -->
-        <?php include 'admin_navbar.php'; ?> <!-- Include your navigation bar -->
+    <!-- Navigation Bar -->
+    <?php include 'admin_navbar.php'; ?> <!-- Include your navigation bar -->
 
-        <header>
+    <header>
         <div class="header-content">
             <h1>Admin Dashboard</h1>
         </div>
-    </header>
+    </header>        
+    <div class="header-content">
+            <h2 style="color:white">View Registrations</h2>
+    </div>
+    <div class="form-wrapper">
+        <div class="form-container">
+
+            <div class="registrations-container"> <!-- Unified container -->
+                <!-- Tournament Selection Dropdown -->
+                <div class="form-group tournament-dropdown">
+                    <label for="tournament_id">Select a Tournament:</label>
+                    <select name="tournament_id" id="tournament_id">
+                        <option value="">All Tournaments</option>
+                        <?php foreach ($activeTournaments as $tournament): ?>
+                            <option value="<?php echo $tournament['tournament_id']; ?>">
+                                <?php echo htmlspecialchars($tournament['tournament_name']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <!-- Table to Display Registrations -->
+                <div class="form-group registrations-table">
+                    <table id="registrationsTable">
+                        <thead>
+                            <tr>
+                                <th>Gamertag</th>
+                                <th>Fee Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7">Select a tournament to view registrations.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Player Count Display -->
+<div class="player-count">
+    <strong>Total Players Registered:</strong> <span id="playerCount">0</span>
+</div>
+            </div>
+        </div>
+    </div>
+    <div class="header-content">
+            <h2 style="color:white">Create New Tournament</h2>
+    </div>
     <div class="form-wrapper">
         <div class="form-container">
             <!-- <h1>Create a New Tournament</h1> -->
@@ -110,6 +165,8 @@ $conn->close();
             </form>
         </div>
     </div>
+
+    <script src="../js/admin_panel_scripts.js"></script>
 </body>
 
 </html>

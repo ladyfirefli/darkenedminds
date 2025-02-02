@@ -87,6 +87,52 @@ function createTournament($conn, $postData) {
     }
 }
 
+// Fetch registered players, optionally filtered by a specific tournament
+function fetchRegisteredPlayers($conn, $tournament_id = null) {
+    $sql = "
+        SELECT 
+            r.registration_id,
+            p.gamertag,
+            p.discord_name,
+            t.name AS tournament_name,
+            r.partner_gamertag,
+            r.fee_paid,
+            r.created_at
+        FROM Registrations r
+        JOIN Players p ON r.player_id = p.player_id
+        JOIN Tournaments t ON r.tournament_id = t.tournament_id
+    ";
+
+    // Add a condition if a specific tournament is requested
+    if ($tournament_id) {
+        $sql .= " WHERE r.tournament_id = ?";
+    }
+
+    $sql .= " ORDER BY r.created_at DESC;";
+  
+    if ($tournament_id) {
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $tournament_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    } else {
+        $result = $conn->query($sql);
+    }
+
+    if (!$result) {
+        error_log("Error fetching registered players: " . $conn->error);
+        return [];
+    }
+
+    $registrations = [];
+    while ($row = $result->fetch_assoc()) {
+        $registrations[] = $row;
+    }
+
+    return $registrations;
+}
+
+
 // // Usage examples
 // $games = getDropdownData($conn, 'Games');
 // $tournamentTypes = getDropdownData($conn, 'Tournament_Types');
