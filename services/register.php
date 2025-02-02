@@ -139,7 +139,7 @@ function getOrInsertPlayer($conn, $gamertag, $email, $discordData, $discord_name
 
 function sendConfirmationEmail($to, $gamertag, $email, $discord_name)
 {
-    $subject = " Test Tournament Registration Confirmation";
+    $subject = "Tournament Registration Confirmation";
     $message = "
         A new participant has registered for the tournament:
 
